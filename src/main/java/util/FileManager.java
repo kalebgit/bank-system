@@ -1,5 +1,7 @@
 package util;
 import java.io.*;
+
+
 public class FileManager {
 	public static void createFile(String fileName) {
 		File file = new File(fileName);
@@ -7,7 +9,7 @@ public class FileManager {
 			PrintWriter output = new PrintWriter(file);
 			output.close();
 		}catch(FileNotFoundException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		
 	}
@@ -19,7 +21,7 @@ public class FileManager {
 			output.println(content);
 			output.close();
 		}catch(FileNotFoundException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -31,9 +33,9 @@ public class FileManager {
 			output.close();
 			
 		}catch(FileNotFoundException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}catch(IOException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -43,15 +45,15 @@ public class FileManager {
 			BufferedReader input = new BufferedReader(new FileReader(fileName));
 			String lecture = input.readLine();
 			while(lecture != null) {
-				System.out.println("primera linea: " + lecture);
+				
 				lecture = input.readLine();
 			}
 			input.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 		}
 	}
 }

@@ -37,6 +37,10 @@ public class DebitCard extends BankProduct {
 		return this.money;
 	}
 	
+	public void updateMoney(double money) {
+		this.money += money;
+	}
+	
 	@Override
 	public String formatID() {
 		return NumberFormatter.formatNumber(this.productID.byteValue(), ProductType.CARD.getFormat());

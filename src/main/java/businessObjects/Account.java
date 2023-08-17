@@ -13,14 +13,16 @@ public class Account extends BankProduct{
 	
 	private String userName;
 	private String password;
+	private DebitCard debitCard;
 	
-	public Account(long bankID, long branchID, String userName, String password) throws BankException {
+	public Account(long bankID, long branchID, String userName, String password, DebitCard debitCard) 
+			throws BankException {
 		super(bankID, branchID);
 		if(checkPasswordFormat(password)) {
 			this.password = password;
 		}
 		this.userName = userName;
-		
+		this.debitCard = debitCard;
 		this.productID = Long.valueOf(accountCount++);
 	}
 	
@@ -39,6 +41,19 @@ public class Account extends BankProduct{
 		}
 		throw new BankException(BankExceptionType.WRONGFORMAT);
 	}
+	
+	//operations
+	public boolean transferTo(Account receiver, double amount) {
+		if(this.debitCard.getMoney() >= amount) {
+			this.debitCard.updateMoney(-amount);
+			receiver.debitCard.updateMoney(amount);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
 	
 	@Override
 	public String formatID() {
