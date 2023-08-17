@@ -1,6 +1,6 @@
 package businessObjects;
 
-public abstract class bankProduct {
+public abstract class BankProduct {
 	public static long productCount;
 	
 	static {
@@ -9,15 +9,15 @@ public abstract class bankProduct {
 	
 	protected long bankID;
 	protected long branchID;
-	protected long productID;
+	protected Long productID;
 	
 	
 	//constructors
 	
-	public bankProduct(long bankID, long branch) {
+	public BankProduct(long bankID, long branchID) {
 		this.bankID = bankID;
 		this.branchID = branchID;
-		this.productID = productCount++;
+		this.productID = Long.valueOf(productCount++);
 	}
 
 
@@ -54,5 +54,9 @@ public abstract class bankProduct {
 
 	
 	//other members
+	protected abstract String formatID();
 	
+	public String toString() {
+		return formatID();
+	}
 }
