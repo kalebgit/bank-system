@@ -1,5 +1,6 @@
 package businessObjects;
 import util.*;
+
 public class Account extends BankProduct{
 	
 	public Account(long bankID, long branchID) {
