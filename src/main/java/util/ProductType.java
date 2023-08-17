@@ -1,7 +1,7 @@
 package util;
 
 public enum ProductType {
-	ACCOUNT("###-#-#####/#"), BANKCODE("######## ##############"), CREDITCARD("#### #### #### ####"),
+	ACCOUNT("###-#-#####/#"), BANKCODE("######## ##############"), CARD("#### #### #### ####"),
 	CREDITCARDCODE("###"), BRANCH("####");
 	
 	private String format;
