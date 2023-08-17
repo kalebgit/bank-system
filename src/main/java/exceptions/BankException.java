@@ -21,6 +21,12 @@ public class BankException extends Exception {
 				return type.getMessage();
 			case PRODUCTTYPENOTDECLARED: 
 				return type.getMessage();
+			case WRONGFORMAT:
+				return type.getMessage();
+			case USERNOTFOUND:
+				return type.getMessage();
+			case DUPLICATEUSER:
+				return type.getMessage();
 			default: 
 				return super.getMessage();
 		}

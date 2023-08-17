@@ -3,7 +3,11 @@ package util;
 public enum BankExceptionType {
 	PRODUCTNOTFOUND((byte)1, "El producto no fue encontrado"), PRODUCTTYPENOTDECLARED((byte)2, 
 			"El tipo de producto no se encuentra en ninguna de nuestras listas"), 
-	WRONGFORMAT((byte)3, "El formato que se ingreso es incorrecto");
+	WRONGFORMAT((byte)3, "El formato que se ingreso es incorrecto"), 
+	USERNOTFOUND((byte)4, "El usuario no fue encontrado, crea una cuenta en su lugar"), 
+	DUPLICATEUSER((byte)5, "El usuario ya existe con esos datos"), 
+	NOTENOUGHMONEY((byte)6, "El usuario al que se le quiso retirar el dinero"), 
+	TRANSACTIONFAILED((byte)7, "La transaccion tuvo un fallo");
 	
 	private Byte code;
 	private String message;
