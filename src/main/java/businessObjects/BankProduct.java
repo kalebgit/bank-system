@@ -1,5 +1,7 @@
 package businessObjects;
 
+import java.util.Objects;
+
 public abstract class BankProduct {
 	
 	
@@ -55,4 +57,25 @@ public abstract class BankProduct {
 	public String toString() {
 		return formatID();
 	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(bankID, branchID, productID);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BankProduct other = (BankProduct) obj;
+		return bankID == other.bankID && branchID == other.branchID && Objects.equals(productID, other.productID);
+	}
+	
+	
 }

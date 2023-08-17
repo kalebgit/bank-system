@@ -1,6 +1,7 @@
 package businessObjects;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 import exceptions.BankException;
 import util.*;
@@ -45,6 +46,28 @@ public class DebitCard extends BankProduct {
 	public String formatID() {
 		return NumberFormatter.formatNumber(this.productID.byteValue(), ProductType.CARD.getFormat());
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(cardNumber, nip);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DebitCard other = (DebitCard) obj;
+		return Objects.equals(cardNumber, other.cardNumber) && nip == other.nip;
+	}
+	
+	
 	
 	
 	

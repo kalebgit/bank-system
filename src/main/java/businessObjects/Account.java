@@ -1,4 +1,6 @@
 package businessObjects;
+import java.util.Objects;
+
 import exceptions.BankException;
 import util.*;
 
@@ -19,7 +21,7 @@ public class Account extends BankProduct{
 			throws BankException {
 		super(bankID, branchID);
 		if(checkPasswordFormat(password)) {
-			this.password = password;
+			this.setPassword(password);
 		}
 		this.userName = userName;
 		this.debitCard = debitCard;
@@ -55,8 +57,50 @@ public class Account extends BankProduct{
 	
 	
 	
+	
 	@Override
 	public String formatID() {
 		return NumberFormatter.formatNumber(this.productID.longValue(), ProductType.ACCOUNT.getFormat());
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(debitCard, userName);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		return Objects.equals(debitCard, other.debitCard) && Objects.equals(userName, other.userName);
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	
+	
+	
+	
 }
