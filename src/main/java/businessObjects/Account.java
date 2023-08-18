@@ -1,6 +1,6 @@
 package businessObjects;
 import java.math.BigInteger;
-import java.util.Objects;
+import java.util.*;
 
 import exceptions.BankException;
 import util.*;
@@ -17,10 +17,9 @@ public class Account extends BankProduct{
 	private String userName;
 	private String password;
 	private BigInteger bankCode;
-	private DebitCard debitCard;
+	private Set<DebitCard> debitCards;
 	
-	public Account(long bankID, long branchID, String userName, String password, BigInteger bankCode, 
-			DebitCard debitCard) 
+	public Account(long bankID, long branchID, String userName, String password, BigInteger bankCode) 
 			throws BankException {
 		super(bankID, branchID);
 		if(checkPasswordFormat(password)) {
@@ -35,7 +34,7 @@ public class Account extends BankProduct{
 			throw new BankException(BankExceptionType.WRONGFORMAT);
 		}
 		this.userName = userName;
-		this.debitCard = debitCard;
+		this.debitCards = new TreeSet<DebitCard>();
 		this.productID = Long.valueOf(accountCount++);
 	}
 	
@@ -57,15 +56,23 @@ public class Account extends BankProduct{
 	
 	//operations
 	public boolean transferTo(Account receiver, double amount) {
-		if(this.debitCard.getMoney() >= amount) {
-			this.debitCard.updateMoney(-amount);
-			receiver.debitCard.updateMoney(amount);
-			return true;
-		}
+//		if(this.debitCard.getMoney() >= amount) {
+//			this.debitCard.updateMoney(-amount);
+//			receiver.debitCard.updateMoney(amount);
+//			return true;
+//		}
 		
 		return false;
 	}
 	
+	
+	public void addDebitCard(DebitCard debitCard) {
+		this.debitCards.add(debitCard);
+	}
+	
+	public void removeDebitCard(BigInteger cardNumber) {
+		
+	}
 	
 	
 	
