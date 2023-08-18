@@ -1,5 +1,6 @@
 package util;
 
+import java.math.BigInteger;
 import java.util.*;
 
 import businessObjects.*;
@@ -29,6 +30,30 @@ public class System {
 			}
 		}
 		return true ;
+	}
+	
+	public static Account findAccount(BigInteger bankCode) throws BankException{
+		for(Account account : accounts) {
+			if(account.getBankCode().equals(bankCode)) {
+				return account;
+			}
+		}
+		throw new BankException(BankExceptionType.USERNOTFOUND, ": NO SE ENCONTRO UN USUARIO CON LA CLABE");
+		
+	}
+	
+	public static boolean generateTransaction(Account account) {
+		boolean access = false;
+		do {
+			try {
+				
+			}catch(BankException e) {
+				e.printStackTrace();
+				access =  true;
+				
+				
+			}
+		}while(access);
 	}
 	
 

@@ -1,4 +1,5 @@
 package businessObjects;
+import java.math.BigInteger;
 import java.util.Objects;
 
 import exceptions.BankException;
@@ -15,13 +16,23 @@ public class Account extends BankProduct{
 	
 	private String userName;
 	private String password;
+	private BigInteger bankCode;
 	private DebitCard debitCard;
 	
-	public Account(long bankID, long branchID, String userName, String password, DebitCard debitCard) 
+	public Account(long bankID, long branchID, String userName, String password, BigInteger bankCode, 
+			DebitCard debitCard) 
 			throws BankException {
 		super(bankID, branchID);
 		if(checkPasswordFormat(password)) {
 			this.setPassword(password);
+		}else {
+			throw new BankException(BankExceptionType.WRONGFORMAT);
+		}
+		if((bankCode.compareTo(new BigInteger("100000000000000000")) == 1 &&
+				(bankCode.compareTo(new BigInteger("999999999999999999")) == -1))) {
+			this.bankCode = bankCode;
+		}else {
+			throw new BankException(BankExceptionType.WRONGFORMAT);
 		}
 		this.userName = userName;
 		this.debitCard = debitCard;
@@ -97,6 +108,14 @@ public class Account extends BankProduct{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public BigInteger getBankCode() {
+		return bankCode;
+	}
+
+	public void setBankCode(BigInteger bankCode) {
+		this.bankCode = bankCode;
 	}
 
 	
