@@ -42,18 +42,16 @@ public class System {
 		
 	}
 	
-	public static boolean generateTransaction(Account account) {
-		boolean access = false;
-		do {
+	public static String generateTransaction(Account account) throws BankException {
+		
 			try {
-				
+				double amount = 500;
+				account.transferTo(findAccount(new BigInteger("111111111111111111")), 500);
+				return "";
 			}catch(BankException e) {
-				e.printStackTrace();
-				access =  true;
-				
+				throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
 				
 			}
-		}while(access);
 	}
 	
 

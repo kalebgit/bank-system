@@ -15,11 +15,17 @@ public class BankException extends Exception {
 		this.type = type;
 	}
 	
+	public BankException(BankExceptionType type, Exception e) {
+		super(e);
+		this.type = type;
+	}
+	
 	public BankException(BankExceptionType type, String otherMessage) {
 		super();
 		this.type = type;
 		this.otherMessage = otherMessage;
 	}
+	
 	
 	@Override
 	public String toString() {
