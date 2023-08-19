@@ -72,6 +72,7 @@ public class App {
 		Properties p = new Properties();
 		try {
 			p.load(new FileReader(new File("db.properties")));
+			System.out.println(p.stringPropertyNames());
 			String usuario = p.getProperty("usuario");
 			String password = p.getProperty("contrasenia");
 			
