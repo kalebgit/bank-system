@@ -17,6 +17,7 @@ public class DebitCard extends BankProduct {
 	private BigInteger cardNumber;
 	private double money;
 	private int nip;
+	private boolean isDefault;
 	
 	public DebitCard(long bankID, long branchID, int nip, BigInteger cardNumber) throws BankException  {
 		super(bankID, branchID);
@@ -32,6 +33,7 @@ public class DebitCard extends BankProduct {
 			throw new BankException(BankExceptionType.WRONGFORMAT);
 		}
 		this.productID = Long.valueOf(cardCount++);
+		this.isDefault = false;
 	}
 	
 	public double getMoney() {
@@ -48,6 +50,16 @@ public class DebitCard extends BankProduct {
 
 	public void setCardNumber(BigInteger cardNumber) {
 		this.cardNumber = cardNumber;
+	}
+	
+	
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 
 	@Override

@@ -67,13 +67,59 @@ public class Account extends BankProduct{
 		return false;
 	}
 	
+	public double getMoney() {
+		return this.money;
+	}
+	
+	private void updateMoney(double money) {
+		this.money += money;
+	}
+	
+	public boolean withdrawMoney(BigInteger cardNumber, double money) throws BankException{
+		DebitCard card = this.findDebitCard(cardNumber);
+		if(card.getMoney() >= money) {
+			this.updateMoney(-money);
+			card.updateMoney(-money);
+			return true;
+		}else {
+			throw new BankException(BankExceptionType.NOTENOUGHMONEY);
+		}
+	}
+	
+	public boolean addMoney(double money) throws BankException{
+		try {
+			if(this.debitCards.size() > 0) {
+				DebitCard card = this.getDefaultDebitCard();
+				card.updateMoney(money);
+			}
+			this.updateMoney(money);
+			return true;
+		}catch(BankException e) {
+			throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
+		}
+		
+		
+	}
+	
 	
 	public void addDebitCard(DebitCard debitCard) {
+		if(this.debitCards.size() == 0) {
+			debitCard.setDefault(true);
+		}
 		this.debitCards.add(debitCard);
 	}
 	
 	public void removeDebitCard(BigInteger cardNumber) throws BankException {
 		this.debitCards.remove(findDebitCard(cardNumber));
+	}
+	
+	public DebitCard getDefaultDebitCard() throws BankException{
+		for(DebitCard card : this.debitCards) {
+			if(card.isDefault()) {
+				return card;
+			}
+		}
+		throw new BankException(BankExceptionType.CARDNOTFOUND, ", no se encontro tarjeta por default");
 	}
 	
 	public DebitCard findDebitCard(BigInteger cardNumber) throws BankException {

@@ -8,7 +8,8 @@ public enum BankExceptionType {
 	DUPLICATEUSER((byte)5, "El usuario ya existe con esos datos"), 
 	NOTENOUGHMONEY((byte)6, "El usuario al que se le quiso retirar el dinero"), 
 	TRANSACTIONFAILED((byte)7, "La transaccion tuvo un fallo"),
-	CARDNOTFOUND((byte)8, "El numero de tarjeta no coincide con ninguna en nuestro sistema");
+	CARDNOTFOUND((byte)8, "El numero de tarjeta no coincide con ninguna en nuestro sistema"),
+	UNKOWNERROR((byte)100, "error desconocido en el banco");
 	
 	private Byte code;
 	private String message;
