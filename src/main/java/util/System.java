@@ -51,9 +51,9 @@ public class System {
 				Account receiver = findAccount(new BigInteger("111111111111111111"));
 				double amount = 500;
 				account.transferTo(receiver, 500);
-				Date today = new Date();
+				
 				return account.getUserName() + " ha transferido $" + amount + " a " + receiver.getUserName() +
-						"date";
+						"date: " + java.time.ZonedDateTime.now().toString();
 			}catch(BankException e) {
 				StringWriter sw = new StringWriter();
 				PrintWriter pw = new PrintWriter(sw);

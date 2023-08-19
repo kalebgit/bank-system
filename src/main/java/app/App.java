@@ -1,5 +1,6 @@
 package app;
 import java.io.*;
+import java.util.Properties;
 
 import util.FileManager;
 public class App {
@@ -24,14 +25,14 @@ public class App {
 		
 		
 		// we create the bankOperations directory of log files
-		File dir = new File("C:\\Users\\Usuario\\Documents\\Kaleb\\programacion\\java\\proyectos\\bank-system\\bankOperations");
+//		File dir = new File("C:\\Users\\Usuario\\Documents\\Kaleb\\programacion\\java\\proyectos\\bank-system\\bankOperations");
 //		if(dir.mkdir()) {
 //			System.out.println("the directory has been created");
 //		}else {
 //			System.out.println("error");
 //		}
 //		
-		File transactions = new File("bankOperations\\transanctions.txt");
+//		File transactions = new File("bankOperations\\transanctions.txt");
 		
 //		try {
 //			if(transactions.createNewFile()) {
@@ -45,11 +46,42 @@ public class App {
 //		}
 		
 //		System.out.println(transactions.getAbsolutePath());
-		File[] files = dir.listFiles();
+//		File[] files = dir.listFiles();
 //		System.out.println(dir.getAbsolutePath());
-		System.out.println(files.length);
-		for(File file : files) {
-			System.out.println(file);
+//		System.out.println(files.length);
+//		for(File file : files) {
+//			System.out.println(file);
+//		}
+		
+		
+//		File props = new File("db.properties");
+//		try {
+//			props.createNewFile();
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+//		try(BufferedWriter input = new BufferedWriter(new FileWriter("db.properties"))){
+//			input.write("usuario=emi");
+//			input.newLine();
+//			input.write("contrasenia=emi2005");
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
+		Properties p = new Properties();
+		try {
+			p.load(new FileReader(new File("db.properties")));
+			String usuario = p.getProperty("usuario");
+			String password = p.getProperty("contrasenia");
+			
+			System.out.println("El usuario es " + usuario + " y su contransenia es " + password);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
