@@ -69,21 +69,23 @@ public class App {
 //		}catch(Exception e) {
 //			e.printStackTrace();
 //		}
-		Properties p = new Properties();
-		try {
-			p.load(new FileReader(new File("db.properties")));
-			System.out.println(p.stringPropertyNames());
-			String usuario = p.getProperty("usuario");
-			String password = p.getProperty("contrasenia");
-			
-			System.out.println("El usuario es " + usuario + " y su contransenia es " + password);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		Properties p = new Properties();
+//		try {
+//			p.load(new FileReader(new File("db.properties")));
+//			System.out.println(p.stringPropertyNames());
+//			String usuario = p.getProperty("usuario");
+//			String password = p.getProperty("contrasenia");
+//			
+//			System.out.println("El usuario es " + usuario + " y su contransenia es " + password);
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		 
 		
 	}
 }
