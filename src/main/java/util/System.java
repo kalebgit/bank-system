@@ -63,16 +63,24 @@ public class System {
 	}
 	
 	public static boolean writeLog(String fileName, String message) {
-		byte[] m = message.getBytes();
 		File file = new File(fileName);
 		if(file.isFile()) {
-			try(FileOutputStream output = new FileOutputStream(file)){
-				try (BufferedOutputStream out = new BufferedOutputStream(output)){
-					out.write(m);
-					out.flush();
-					return true;
+			try(BufferedWriter output = new BufferedWriter(new FileWriter(file))){
+				try(BufferedReader input = new BufferedReader(new FileReader(file))){
+					if(input.ready()) {
+						if(input.readLine() == "") {
+							output.write(message);
+						}else {
+							output.newLine();
+							output.write(message);
+						}
+					}
 				}
-			}catch(Exception e) {
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
