@@ -20,11 +20,18 @@ public class BankException extends Exception {
 		this.type = type;
 	}
 	
+	public BankException(BankExceptionType type, Exception e, String otherMessage) {
+		super(e);
+		this.type = type;
+		this.otherMessage = otherMessage;
+	}
+	
 	public BankException(BankExceptionType type, String otherMessage) {
 		super();
 		this.type = type;
 		this.otherMessage = otherMessage;
 	}
+	
 	
 	
 	@Override

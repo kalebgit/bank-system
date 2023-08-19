@@ -1,5 +1,6 @@
 package util;
 
+import java.io.*;
 import java.math.BigInteger;
 import java.util.*;
 
@@ -50,11 +51,33 @@ public class System {
 				Account receiver = findAccount(new BigInteger("111111111111111111"));
 				double amount = 500;
 				account.transferTo(receiver, 500);
-				return "";
+				Date today = new Date();
+				return account.getUserName() + " ha transferido $" + amount + " a " + receiver.getUserName() +
+						"date";
 			}catch(BankException e) {
-				throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
-				
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				return sw.toString();
 			}
+	}
+	
+	public static boolean writeLog(String fileName, String message) {
+		byte[] m = message.getBytes();
+		File file = new File(fileName);
+		if(file.isFile()) {
+			try(FileOutputStream output = new FileOutputStream(file)){
+				try (BufferedOutputStream out = new BufferedOutputStream(output)){
+					out.write(m);
+					out.flush();
+					return true;
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		return false;
 	}
 	
 

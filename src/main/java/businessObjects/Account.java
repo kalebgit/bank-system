@@ -65,7 +65,7 @@ public class Account extends BankProduct{
 						receiver.addMoney(amount);
 					}
 				}catch(BankException e) {
-					throw new BankException(BankExceptionType.TRANSACTIONFAILED);
+					throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
 				}
 			}
 		}catch(BankException e) {
