@@ -42,6 +42,14 @@ public class DebitCard extends BankProduct {
 		this.money += money;
 	}
 	
+	public BigInteger getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(BigInteger cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
 	@Override
 	public String formatID() {
 		return NumberFormatter.formatNumber(this.productID.byteValue(), ProductType.CARD.getFormat());
@@ -51,7 +59,7 @@ public class DebitCard extends BankProduct {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(cardNumber, nip);
+		result = prime * result + Objects.hash(cardNumber);
 		return result;
 	}
 
@@ -64,8 +72,10 @@ public class DebitCard extends BankProduct {
 		if (getClass() != obj.getClass())
 			return false;
 		DebitCard other = (DebitCard) obj;
-		return Objects.equals(cardNumber, other.cardNumber) && nip == other.nip;
+		return Objects.equals(cardNumber, other.cardNumber);
 	}
+
+	
 	
 	
 	

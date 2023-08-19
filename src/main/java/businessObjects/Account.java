@@ -74,6 +74,15 @@ public class Account extends BankProduct{
 		
 	}
 	
+	public DebitCard findDebitCard(BigInteger cardNumber) throws BankException {
+		 for(DebitCard card : this.debitCards) {
+			 if(card.getCardNumber() == cardNumber) {
+				 return card;
+			 }
+		 }
+		 throw new BankException(BankExceptionType.CARDNOTFOUND);
+	}
+	
 	
 	
 	@Override

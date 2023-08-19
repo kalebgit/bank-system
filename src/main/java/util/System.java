@@ -42,6 +42,8 @@ public class System {
 		
 	}
 	
+	
+	
 	public static String generateTransaction(Account account) throws BankException {
 		
 			try {

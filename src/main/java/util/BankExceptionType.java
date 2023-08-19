@@ -7,7 +7,8 @@ public enum BankExceptionType {
 	USERNOTFOUND((byte)4, "El usuario no fue encontrado, crea una cuenta en su lugar"), 
 	DUPLICATEUSER((byte)5, "El usuario ya existe con esos datos"), 
 	NOTENOUGHMONEY((byte)6, "El usuario al que se le quiso retirar el dinero"), 
-	TRANSACTIONFAILED((byte)7, "La transaccion tuvo un fallo");
+	TRANSACTIONFAILED((byte)7, "La transaccion tuvo un fallo"),
+	CARDNOTFOUND((byte)8, "El numero de tarjeta no coincide con ninguna en nuestro sistema");
 	
 	private Byte code;
 	private String message;
