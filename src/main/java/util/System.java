@@ -47,8 +47,9 @@ public class System {
 	public static String generateTransaction(Account account) throws BankException {
 		
 			try {
+				Account receiver = findAccount(new BigInteger("111111111111111111"));
 				double amount = 500;
-				account.transferTo(findAccount(new BigInteger("111111111111111111")), 500);
+				account.transferTo(receiver, 500);
 				return "";
 			}catch(BankException e) {
 				throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);

@@ -17,6 +17,7 @@ public class Account extends BankProduct{
 	private String userName;
 	private String password;
 	private BigInteger bankCode;
+	private double money;
 	private Set<DebitCard> debitCards;
 	
 	public Account(long bankID, long branchID, String userName, String password, BigInteger bankCode) 
@@ -36,6 +37,7 @@ public class Account extends BankProduct{
 		this.userName = userName;
 		this.debitCards = new TreeSet<DebitCard>();
 		this.productID = Long.valueOf(accountCount++);
+		this.money = 0;
 	}
 	
 	public boolean checkPasswordFormat(String password) throws BankException{
@@ -70,8 +72,8 @@ public class Account extends BankProduct{
 		this.debitCards.add(debitCard);
 	}
 	
-	public void removeDebitCard(BigInteger cardNumber) {
-		
+	public void removeDebitCard(BigInteger cardNumber) throws BankException {
+		this.debitCards.remove(findDebitCard(cardNumber));
 	}
 	
 	public DebitCard findDebitCard(BigInteger cardNumber) throws BankException {
@@ -90,11 +92,13 @@ public class Account extends BankProduct{
 		return NumberFormatter.formatNumber(this.productID.longValue(), ProductType.ACCOUNT.getFormat());
 	}
 
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(debitCard, userName);
+		result = prime * result + Objects.hash(bankCode, userName);
 		return result;
 	}
 
@@ -107,7 +111,7 @@ public class Account extends BankProduct{
 		if (getClass() != obj.getClass())
 			return false;
 		Account other = (Account) obj;
-		return Objects.equals(debitCard, other.debitCard) && Objects.equals(userName, other.userName);
+		return Objects.equals(bankCode, other.bankCode) && Objects.equals(userName, other.userName);
 	}
 
 	public String getUserName() {
