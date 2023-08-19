@@ -57,14 +57,21 @@ public class Account extends BankProduct{
 	}
 	
 	//operations
-	public boolean transferTo(Account receiver, double amount) {
-//		if(this.debitCard.getMoney() >= amount) {
-//			this.debitCard.updateMoney(-amount);
-//			receiver.debitCard.updateMoney(amount);
-//			return true;
-//		}
-		
-		return false;
+	public boolean transferTo(Account receiver, double amount) throws BankException{
+		try {
+			if(this.hasFunds(amount)) {
+				try {
+					if(this.withdrawMoney(this.getDefaultDebitCard().getCardNumber(), amount)) {
+						receiver.addMoney(amount);
+					}
+				}catch(BankException e) {
+					throw new BankException(BankExceptionType.TRANSACTIONFAILED);
+				}
+			}
+		}catch(BankException e) {
+			throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
+		}
+		return true;
 	}
 	
 	public double getMoney() {
@@ -73,6 +80,13 @@ public class Account extends BankProduct{
 	
 	private void updateMoney(double money) {
 		this.money += money;
+	}
+	
+	private boolean hasFunds(double money) throws BankException{
+		if(this.money >= money) {
+			return true;
+		}
+		throw new BankException(BankExceptionType.NOTENOUGHMONEY);
 	}
 	
 	public boolean withdrawMoney(BigInteger cardNumber, double money) throws BankException{
