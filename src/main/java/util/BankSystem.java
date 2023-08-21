@@ -3,15 +3,16 @@ package util;
 import java.io.*;
 import java.math.BigInteger;
 import java.util.*;
+import java.util.Map.Entry;
 
 import businessObjects.*;
 import exceptions.BankException;
 
-public class System {
+public class BankSystem {
 	
 	private static Set<Account> accounts;
 	
-	public System() {
+	public BankSystem() {
 		accounts = new TreeSet<Account>();
 	}
 	
@@ -84,6 +85,27 @@ public class System {
 		return false;
 	}
 	
+	
+	public static <K, V> boolean createPropertiesFile(String fileName, Map<K, V> properties) {
+		File file = new File("./" + fileName + ".properties");
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))){
+			for(Entry<K, V> data : properties.entrySet()) {
+				writer.write(data.getKey() + "=" + data.getValue());
+				writer.newLine();
+			}
+			return true;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public static Properties getPropertiesFrom(String fileName) throws FileNotFoundException, IOException {
+		File file = new File("./" + fileName);
+		Properties p = new Properties();
+		p.load(new BufferedReader(new FileReader(file)));
+		return p;
+	}
 
 	
 	public static void run() {
