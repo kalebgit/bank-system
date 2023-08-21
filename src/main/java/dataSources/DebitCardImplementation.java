@@ -30,7 +30,7 @@ public class DebitCardImplementation implements DAO<DebitCard, Long>, Connection
 	@Override
 	public boolean update(DebitCard element) {
 		Connection conn = getConnection();
-		String query = "UPDATE DebitCard SET Number=?, NIP=?, Funds=?, IsDefault=?"
+		String query = "UPDATE DebitCard SET Number=?, NIP=?, Funds=?, IsDefault=? "
 				+ "WHERE DebitCardID=? AND Number=? AND NIP=?";
 		try {
 			PreparedStatement p = conn.prepareStatement(query);

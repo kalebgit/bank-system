@@ -11,8 +11,8 @@ public class AccountImplementation implements DAO<Account, Long>, ConnectionSqlS
 	@Override
 	public boolean insert(Account element) {
 		Connection conn = getConnection();
-		String query = "INSERT INTO Account(BankCode, Username, Password, Funds) VALUES"
-				+ "(?, ?, ?, ?)";
+		String query = "INSERT INTO Account(BankCode, Username, Password, Funds) VALUES "
+				+ " (?, ?, ?, ?)";
 		PreparedStatement p;
 		try {
 			p = conn.prepareStatement(query);
@@ -20,6 +20,7 @@ public class AccountImplementation implements DAO<Account, Long>, ConnectionSqlS
 			p.setString(2, element.getUserName());
 			p.setString(3, element.getPassword());
 			p.setDouble(4, element.getMoney());
+			p.execute();
 			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -60,6 +61,7 @@ public class AccountImplementation implements DAO<Account, Long>, ConnectionSqlS
 			p.setLong(1, element.getProductID());
 			p.setBigDecimal(2, element.getBankCode());
 			p.setString(3, element.getUserName());
+			p.execute();
 			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
