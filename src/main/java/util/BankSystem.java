@@ -1,6 +1,7 @@
 package util;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.Map.Entry;
@@ -34,9 +35,9 @@ public class BankSystem {
 		return true ;
 	}
 	
-	public static Account findAccount(BigInteger bankCode) throws BankException{
+	public static Account findAccount(BigDecimal bankCode) throws BankException{
 		for(Account account : accounts) {
-			if(account.getBankCode().equals(bankCode)) {
+			if(account.getBankCode() == bankCode) {
 				return account;
 			}
 		}
@@ -49,7 +50,7 @@ public class BankSystem {
 	public static String generateTransaction(Account account) throws BankException {
 		
 			try {
-				Account receiver = findAccount(new BigInteger("111111111111111111"));
+				Account receiver = findAccount(new BigDecimal("111111111111111111"));
 				double amount = 500;
 				account.transferTo(receiver, 500);
 				

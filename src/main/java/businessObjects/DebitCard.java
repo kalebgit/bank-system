@@ -1,5 +1,6 @@
 package businessObjects;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Objects;
 
@@ -8,16 +9,16 @@ import util.*;
 
 public class DebitCard extends BankProduct {
 	
-	private BigInteger cardNumber;
+	private BigDecimal cardNumber;
 	private double money;
 	private int nip;
 	private boolean isDefault;
 	
-	public DebitCard(long productID, int nip, BigInteger cardNumber) throws BankException  {
+	public DebitCard(long productID, int nip, BigDecimal cardNumber) throws BankException  {
 		super(productID);
 		this.money = 0;
-		if((cardNumber.compareTo(new BigInteger("1000000000000000")) == 1 && 
-				cardNumber.compareTo(new BigInteger("999999999999")) == -1) 
+		if((cardNumber.compareTo(new BigDecimal("1000000000000000")) == 1 && 
+				cardNumber.compareTo(new BigDecimal("999999999999")) == -1) 
 				&&
 			(nip > 1000 && nip < 9999)) {
 			this.cardNumber = cardNumber;
@@ -37,11 +38,11 @@ public class DebitCard extends BankProduct {
 		this.money += money;
 	}
 	
-	public BigInteger getCardNumber() {
+	public BigDecimal getCardNumber() {
 		return cardNumber;
 	}
 
-	public void setCardNumber(BigInteger cardNumber) {
+	public void setCardNumber(BigDecimal cardNumber) {
 		this.cardNumber = cardNumber;
 	}
 	

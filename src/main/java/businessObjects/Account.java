@@ -1,18 +1,47 @@
 package businessObjects;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.*;
 import java.util.*;
 
+import dataAccessObject.DAO;
+import dataSources.ConnectionSqlServer;
 import exceptions.BankException;
 import util.*;
 
-public class Account extends BankProduct{
+public class Account extends BankProduct implements DAO, ConnectionSqlServer{
 	private String userName;
 	private String password;
-	private BigInteger bankCode;
+	private BigDecimal bankCode;
 	private double money;
 	private Set<DebitCard> debitCards;
 	
-	public Account(long productID, String userName, String password, BigInteger bankCode) 
+	//GETTERS AND SETTERS
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public BigDecimal getBankCode() {
+		return bankCode;
+	}
+
+	public void setBankCode(BigDecimal bankCode) {
+		this.bankCode = bankCode;
+	}
+	
+	public Account(long productID, String userName, String password, BigDecimal bankCode) 
 			throws BankException {
 		super(productID);
 		if(checkPasswordFormat(password)) {
@@ -20,8 +49,8 @@ public class Account extends BankProduct{
 		}else {
 			throw new BankException(BankExceptionType.WRONGFORMAT);
 		}
-		if((bankCode.compareTo(new BigInteger("100000000000000000")) == 1 &&
-				(bankCode.compareTo(new BigInteger("999999999999999999")) == -1))) {
+		if((bankCode.compareTo(new BigDecimal("100000000000000000")) == 1 &&
+				(bankCode.compareTo(new BigDecimal("999999999999999999")) == -1))) {
 			this.bankCode = bankCode;
 		}else {
 			throw new BankException(BankExceptionType.WRONGFORMAT);
@@ -30,6 +59,8 @@ public class Account extends BankProduct{
 		this.debitCards = new TreeSet<DebitCard>();
 		this.money = 0;
 	}
+	
+	
 	
 	public boolean checkPasswordFormat(String password) throws BankException{
 		char[] passwordArray = password.toCharArray();
@@ -80,7 +111,7 @@ public class Account extends BankProduct{
 		throw new BankException(BankExceptionType.NOTENOUGHMONEY);
 	}
 	
-	public boolean withdrawMoney(BigInteger cardNumber, double money) throws BankException{
+	public boolean withdrawMoney(BigDecimal cardNumber, double money) throws BankException{
 		DebitCard card = this.findDebitCard(cardNumber);
 		if(card.getMoney() >= money) {
 			this.updateMoney(-money);
@@ -114,7 +145,7 @@ public class Account extends BankProduct{
 		this.debitCards.add(debitCard);
 	}
 	
-	public void removeDebitCard(BigInteger cardNumber) throws BankException {
+	public void removeDebitCard(BigDecimal cardNumber) throws BankException {
 		this.debitCards.remove(findDebitCard(cardNumber));
 	}
 	
@@ -127,7 +158,7 @@ public class Account extends BankProduct{
 		throw new BankException(BankExceptionType.CARDNOTFOUND, ", no se encontro tarjeta por default");
 	}
 	
-	public DebitCard findDebitCard(BigInteger cardNumber) throws BankException {
+	public DebitCard findDebitCard(BigDecimal cardNumber) throws BankException {
 		 for(DebitCard card : this.debitCards) {
 			 if(card.getCardNumber() == cardNumber) {
 				 return card;
@@ -167,28 +198,27 @@ public class Account extends BankProduct{
 		return Objects.equals(bankCode, other.bankCode) && Objects.equals(userName, other.userName);
 	}
 
-	public String getUserName() {
-		return userName;
+	
+
+	@Override
+	public boolean insert(Account element) {
+		Connection conn = getConnection();
+		String query = "INSERT INTO Account(BankCode, Username, Password, Funds) VALUES"
+				+ "(?, ?, ?, ?)";
+		PreparedStatement p = conn.prepareStatement(query);
+		p.setBigDecimal(1,element.getBankCode());
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	@Override
+	public boolean update(Object element) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public BigInteger getBankCode() {
-		return bankCode;
-	}
-
-	public void setBankCode(BigInteger bankCode) {
-		this.bankCode = bankCode;
+	@Override
+	public boolean delete(Object element) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	
