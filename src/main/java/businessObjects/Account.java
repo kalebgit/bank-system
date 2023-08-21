@@ -45,7 +45,9 @@ public class Account extends BankProduct{
 	public Account(long productID, String userName, String password, BigDecimal bankCode,
 			double money) 
 			throws BankException {
+		
 		super(productID);
+		
 		if(checkPasswordFormat(password)) {
 			this.setPassword(password);
 		}else {
@@ -57,8 +59,10 @@ public class Account extends BankProduct{
 		}else {
 			throw new BankException(BankExceptionType.WRONGFORMAT);
 		}
+		DAOManager manager = new DAOManager();
+		DebitCardDAO debitcarddao = manager.getDebitCardDAO();
 		this.userName = userName;
-		this.debitCards = new TreeSet<DebitCard>();
+		this.debitCards = debitcarddao.getOwnerDebitCards(this);
 		this.money = money;
 	}
 	

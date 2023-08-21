@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import businessObjects.Account;
 import businessObjects.DebitCard;
@@ -93,7 +95,7 @@ public class DebitCardDAO implements DAO<DebitCard, Long>{
 		throw new UnsupportedOperationException();
 	}
 	
-	public List<DebitCard> getOwnerDebitCards(Account account)throws BankException{
+	public Set<DebitCard> getOwnerDebitCards(Account account)throws BankException{
 		String query = "SELECT DebitCardID, Number, NIP, DebitCard.Funds, IsDefault FROM "
 				+ "DebitCard "
 				+ "INNER JOIN "
@@ -101,7 +103,7 @@ public class DebitCardDAO implements DAO<DebitCard, Long>{
 				+ " ON DebitCard.AccountID = Account.AccountID "
 				+ " WHERE Account.BankCode=?";
 		
-		List<DebitCard> debitCards = new ArrayList<DebitCard>();
+		Set<DebitCard> debitCards = new TreeSet<DebitCard>();
 		try {
 			PreparedStatement p = conn.prepareStatement(query);
 			p.setBigDecimal(1, account.getBankCode());
@@ -112,13 +114,11 @@ public class DebitCardDAO implements DAO<DebitCard, Long>{
 								true : false));
 			}
 			p.close();
-			if(debitCards.size() > 0) {
-				return debitCards; 
-			}else {
-				throw new BankException(BankExceptionType.CARDNOTFOUND, "ninguna tarjeta fue encontrada");
-			}
+			set.close();
+			return debitCards;
 		}catch(Exception e) {
-			throw new BankException(BankExceptionType.CARDNOTFOUND, e, "ninguna tarjeta fue encontrada");
+			throw new BankException(BankExceptionType.DAOSQLSERVER, e, " hubo un error en el proceso "
+					+ "de busqueda de tarjetas que le pertenezcan a una cuenta");
 		}
 	}
 }
