@@ -1,5 +1,6 @@
 package dataSources;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -91,8 +92,28 @@ public class DebitCardDAO implements DAO<DebitCard, Long>{
 		throw new UnsupportedOperationException();
 	}
 	
-//	public DebitCard getSingleByNumber(BigDecimal Number) {
-//	}
+	public DebitCard getSingleByNumber(BigDecimal number) throws BankException {
+		String query = "SELECT * FROM DebitCard WHERE Number=?";
+		try {
+			PreparedStatement p = conn.prepareStatement(query);
+			p.setBigDecimal(1, number);
+			ResultSet set = p.executeQuery();
+			if(set.next()) {
+				DebitCard debitcardfound = new DebitCard(set.getLong("DebitCardID"), 
+						set.getBigDecimal("Number"), 
+						set.getInt("NIP"), set.getDouble("Funds"), set.getInt("IsDefault") == 1 ? 
+								true : false);
+				p.close();
+				set.close();
+				return debitcardfound;
+				
+			}else {
+				throw new BankException(BankExceptionType.CARDNOTFOUND);
+			}
+		}catch(Exception e) {
+			throw new BankException(BankExceptionType.DAOSQLSERVER, e);
+		}
+	}
 	
 	public Set<DebitCard> getOwnerDebitCards(Account account)throws BankException{
 		String query = "SELECT DebitCardID, Number, NIP, DebitCard.Funds, IsDefault FROM "
@@ -119,5 +140,11 @@ public class DebitCardDAO implements DAO<DebitCard, Long>{
 			throw new BankException(BankExceptionType.DAOSQLSERVER, e, " hubo un error en el proceso "
 					+ "de busqueda de tarjetas que le pertenezcan a una cuenta");
 		}
+	}
+
+	@Override
+	public DebitCard getSingle(Long key) throws Exception {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
 	}
 }
