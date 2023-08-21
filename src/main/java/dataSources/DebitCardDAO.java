@@ -8,9 +8,16 @@ import businessObjects.Account;
 import businessObjects.DebitCard;
 import dataAccessObject.DAO;
 
-public class DebitCardImplementation implements DAO<DebitCard, Long>, ConnectionSqlServer{
+public class DebitCardDAO implements DAO<DebitCard, Long>, ConnectionSqlServer{
+	
+	private Connection conn;
+	
+	public DebitCardDAO(Connection conn) {
+		this.conn = conn;
+	}
+	
 	public boolean insert(DebitCard element, Account owner) {
-		Connection conn = getConnection();
+		
 		String query = "INSERT INTO DebitCard(Number, NIP, Funds, IsDefault, AccountID) "
 				+ " VALUES (?, ?, ?, ?, ?)";
 		try {
@@ -30,7 +37,7 @@ public class DebitCardImplementation implements DAO<DebitCard, Long>, Connection
 
 	@Override
 	public boolean update(DebitCard element) {
-		Connection conn = getConnection();
+		
 		String query = "UPDATE DebitCard SET Number=?, NIP=?, Funds=?, IsDefault=? "
 				+ "WHERE DebitCardID=? AND Number=? AND NIP=?";
 		try {
@@ -52,7 +59,7 @@ public class DebitCardImplementation implements DAO<DebitCard, Long>, Connection
 
 	@Override
 	public boolean delete(DebitCard element) {
-		Connection conn = getConnection();
+		
 		String query = "DELETE FROM DebitCard WHERE DebitCardID=? AND Number=? AND NIP=? ";
 		try {
 			PreparedStatement p = conn.prepareStatement(query);

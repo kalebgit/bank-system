@@ -7,10 +7,16 @@ import java.sql.SQLException;
 import businessObjects.Account;
 import dataAccessObject.DAO;
 
-public class AccountImplementation implements DAO<Account, Long>, ConnectionSqlServer{
+public class AccountDAO implements DAO<Account, Long>{
+	
+	private Connection conn;
+	
+	public AccountDAO(Connection conn) {
+		this.conn = conn;
+	}
+	
 	@Override
 	public boolean insert(Account element) {
-		Connection conn = getConnection();
 		String query = "INSERT INTO Account(BankCode, Username, Password, Funds) VALUES "
 				+ " (?, ?, ?, ?)";
 		PreparedStatement p;
@@ -31,7 +37,6 @@ public class AccountImplementation implements DAO<Account, Long>, ConnectionSqlS
 
 	@Override
 	public boolean update(Account element) {
-		Connection conn = getConnection();
 		String query = "UPDATE Account SET BankCode=?, Username=?, password=?, funds=? "
 				+ "WHERE AccountID=? AND BankCode=? AND Username=?";
 		try {
@@ -55,7 +60,6 @@ public class AccountImplementation implements DAO<Account, Long>, ConnectionSqlS
 
 	@Override
 	public boolean delete(Account element) {
-		Connection conn = getConnection();
 		String query = "DELETE FROM Account WHERE AccountID=? AND BankCode=? AND Username=? ";
 		try {
 			PreparedStatement p = conn.prepareStatement(query);
