@@ -23,30 +23,22 @@
 --	CONSTRAINT FK_CreditCard_Owner FOREIGN KEY (AccountID) REFERENCES Account(AccountID)
 --)
 
---CREATE TABLE TransactionToAcccount (
---	TransactionID INT IDENTITY(1,1),
+--CREATE TABLE Transfer(
+--	TransferID INT IDENTITY(1,1),
 --	OriginAccountID INT, 
---	ReceiverAccountID INT,
---	Amount NUMERIC(13,4) NOT NULL,
---	TransactionDate DATETIME NOT NULL,
-
---	CONSTRAINT PK_TransactionID PRIMARY KEY (TransactionID),
---	CONSTRAINT FK_Transaction_OriginAccount FOREIGN KEY (OriginAccountID)
---		REFERENCES Account(AccountID),
---	CONSTRAINT FK_Transaction_ReceiverAccount FOREIGN KEY (ReceiverAccountID)
---		REFERENCES Account(AccountID),
-	
---)
-
---CREATE TABLE TransactionToDebitCard (
---	TransactionID INT IDENTITY(1,1),
 --	OriginDebitCardID INT,
+--	ReceiverAccountID INT,
 --	ReceiverDebitCardID INT,
 --	Amount NUMERIC(13,4) NOT NULL,
 --	TransactionDate DATETIME NOT NULL,
 
---	CONSTRAINT FK_Transaction_OriginDebitCard FOREIGN KEY (OriginDebitCardID)
+--	CONSTRAINT PK_Transfer PRIMARY KEY (TransferID),
+--	CONSTRAINT FK_Transfer_OriginAccount FOREIGN KEY (OriginAccountID)
+--		REFERENCES Account(AccountID),
+--	CONSTRAINT FK_Transfer_OriginDebitCard FOREIGN KEY (OriginDebitCardID)
 --		REFERENCES DebitCard(DebitCardID),
---	CONSTRAINT FK_Transaction_ReceiverDebitCard FOREIGN KEY (ReceiverDebitCardID)
---		REFERENCES DebitCard(DebitCardID)
+--	CONSTRAINT FK_Transfer_ReceiverDebitCard FOREIGN KEY (ReceiverDebitCardID)
+--		REFERENCES DebitCard(DebitCardID),
+--	CONSTRAINT FK_Transfer_ReceiverAccount FOREIGN KEY (ReceiverAccountID)
+--		REFERENCES Account(AccountID),
 --)

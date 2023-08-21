@@ -78,36 +78,9 @@ public class Account extends BankProduct{
 		throw new BankException(BankExceptionType.WRONGFORMAT);
 	}
 	
-	/*
-	 * practicar transacciones
-	 * 
-	 * Dentro de los metodos DAO crear excepciones de tipo DAO
-	 * 
-	 * Usasr conversiones de resultssets de selects a el tipo de clase
-	 * 
-	 * cerrar las conexiones de resultstate o statements
-	 * 
-	 * 
-	 * crear interface daomanager y clase daomanager
-	 */
 	
 	//operations
-	public boolean transferTo(Account receiver, double amount) throws BankException{
-		try {
-			if(this.hasFunds(amount)) {
-				try {
-					if(this.withdrawMoney(this.getDefaultDebitCard().getCardNumber(), amount)) {
-						receiver.addMoney(amount);
-					}
-				}catch(BankException e) {
-					throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
-				}
-			}
-		}catch(BankException e) {
-			throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
-		}
-		return true;
-	}
+	
 	
 	public double getMoney() {
 		return this.money;
