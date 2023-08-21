@@ -43,6 +43,7 @@ public class AccountImplementation implements DAO<Account, Long>, ConnectionSqlS
 			p.setLong(5, element.getProductID());
 			p.setBigDecimal(6, element.getBankCode());
 			p.setString(7, element.getUserName());
+			p.execute();
 			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

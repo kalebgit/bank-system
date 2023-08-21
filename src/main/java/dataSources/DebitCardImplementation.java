@@ -20,6 +20,7 @@ public class DebitCardImplementation implements DAO<DebitCard, Long>, Connection
 			p.setDouble(3, element.getMoney());
 			p.setInt(4, element.isDefault() ? 1 : 0);
 			p.setLong(5, owner.getProductID());
+			p.execute();
 			return true;
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -41,6 +42,7 @@ public class DebitCardImplementation implements DAO<DebitCard, Long>, Connection
 			p.setLong(5, element.getProductID());
 			p.setBigDecimal(6, element.getCardNumber());
 			p.setInt(7, element.getNip());
+			p.execute();
 			return true;
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -57,6 +59,7 @@ public class DebitCardImplementation implements DAO<DebitCard, Long>, Connection
 			p.setLong(1, element.getProductID());
 			p.setBigDecimal(2, element.getCardNumber());
 			p.setInt(3, element.getNip());
+			p.execute();
 			return true;
 		}catch(SQLException e) {
 			e.printStackTrace();
