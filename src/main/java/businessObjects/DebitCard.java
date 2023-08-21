@@ -8,12 +8,6 @@ import util.*;
 
 public class DebitCard extends BankProduct {
 	
-	public static long cardCount;
-	
-	static {
-		cardCount = 0;
-	}
-	
 	private BigInteger cardNumber;
 	private double money;
 	private int nip;
@@ -32,7 +26,6 @@ public class DebitCard extends BankProduct {
 		else {
 			throw new BankException(BankExceptionType.WRONGFORMAT);
 		}
-		this.productID = Long.valueOf(cardCount++);
 		this.isDefault = false;
 	}
 	
