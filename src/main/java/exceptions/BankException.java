@@ -47,6 +47,8 @@ public class BankException extends Exception {
 				return type.getMessage()  + otherMessage;
 			case DUPLICATEUSER:
 				return type.getMessage()  + otherMessage;
+			case DAOSQLSERVER:
+				return type.getMessage()  + otherMessage;
 			default: 
 				return super.getMessage()  + otherMessage;
 		}

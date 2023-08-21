@@ -28,9 +28,11 @@ public class DebitCardDAO implements DAO<DebitCard, Long>{
 			p.setInt(4, element.isDefault() ? 1 : 0);
 			p.setLong(5, owner.getProductID());
 			p.execute();
+			p.close();
 			return true;
 		}catch(SQLException e) {
 			e.printStackTrace();
+			
 		}
 		return false;
 	}
@@ -50,9 +52,11 @@ public class DebitCardDAO implements DAO<DebitCard, Long>{
 			p.setBigDecimal(6, element.getCardNumber());
 			p.setInt(7, element.getNip());
 			p.execute();
+			p.close();
 			return true;
 		}catch(SQLException e) {
 			e.printStackTrace();
+			
 		}
 		return false;
 	}

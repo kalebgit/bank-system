@@ -9,6 +9,7 @@ public enum BankExceptionType {
 	NOTENOUGHMONEY((byte)6, "El usuario al que se le quiso retirar el dinero"), 
 	TRANSACTIONFAILED((byte)7, "La transaccion tuvo un fallo"),
 	CARDNOTFOUND((byte)8, "El numero de tarjeta no coincide con ninguna en nuestro sistema"),
+	DAOSQLSERVER((byte)9, "Hubo un error con la operacion del dao"),
 	UNKOWNERROR((byte)100, "error desconocido en el banco");
 	
 	private Byte code;

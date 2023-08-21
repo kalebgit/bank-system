@@ -10,8 +10,8 @@ import util.BankSystem;
 
 public class DAOManager implements DAOManagerI{
 	
-	private AccountDAO accountDAO;
-	private DebitCardDAO debitCardDAO;
+	private AccountDAO accountDAO = null;
+	private DebitCardDAO debitCardDAO = null;
 	private Connection conn;
 	
 	public DAOManager() {
