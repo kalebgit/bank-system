@@ -12,7 +12,7 @@ import dataSources.ConnectionSqlServer;
 import exceptions.BankException;
 import util.*;
 
-public class DebitCard extends BankProduct implements DAO<DebitCard, Long>, ConnectionSqlServer{
+public class DebitCard extends BankProduct {
 	
 	private BigDecimal cardNumber;
 	private double money;
