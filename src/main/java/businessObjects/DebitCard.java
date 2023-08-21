@@ -2,12 +2,17 @@ package businessObjects;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Objects;
 
+import dataAccessObject.DAO;
+import dataSources.ConnectionSqlServer;
 import exceptions.BankException;
 import util.*;
 
-public class DebitCard extends BankProduct {
+public class DebitCard extends BankProduct implements DAO<DebitCard, Long>, ConnectionSqlServer{
 	
 	private BigDecimal cardNumber;
 	private double money;
@@ -48,6 +53,18 @@ public class DebitCard extends BankProduct {
 	
 	
 
+	public int getNip() {
+		return nip;
+	}
+
+	public void setNip(int nip) {
+		this.nip = nip;
+	}
+
+	public void setMoney(double money) {
+		this.money = money;
+	}
+
 	public boolean isDefault() {
 		return isDefault;
 	}
@@ -79,6 +96,41 @@ public class DebitCard extends BankProduct {
 			return false;
 		DebitCard other = (DebitCard) obj;
 		return Objects.equals(cardNumber, other.cardNumber);
+	}
+
+	public boolean insert(DebitCard element, Account owner) {
+		Connection conn = getConnection();
+		String query = "INSERT INTO DebitCard VALUES (?, ?, ?, ?, ?)";
+		try {
+			PreparedStatement p = conn.prepareStatement(query);
+			p.setBigDecimal(1, element.getCardNumber());
+			p.setInt(2, element.getNip());
+			p.setDouble(3, element.getMoney());
+			p.setInt(4, element.isDefault() ? 1 : 0);
+			p.setLong(5, owner.getProductID());
+			return true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean update(DebitCard element) {
+		
+		return false;
+	}
+
+	@Override
+	public boolean delete(DebitCard element) {
+		
+		return false;
+	}
+
+	@Override
+	public boolean insert(DebitCard element) throws UnsupportedOperationException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
 	}
 
 	
