@@ -6,23 +6,15 @@ import exceptions.BankException;
 import util.*;
 
 public class Account extends BankProduct{
-
-	public static long accountCount;
-	
-	static {
-		accountCount = 0;
-	}
-	
-	
 	private String userName;
 	private String password;
 	private BigInteger bankCode;
 	private double money;
 	private Set<DebitCard> debitCards;
 	
-	public Account(long bankID, long branchID, String userName, String password, BigInteger bankCode) 
+	public Account(long productID, String userName, String password, BigInteger bankCode) 
 			throws BankException {
-		super(bankID, branchID);
+		super(productID);
 		if(checkPasswordFormat(password)) {
 			this.setPassword(password);
 		}else {
@@ -36,7 +28,6 @@ public class Account extends BankProduct{
 		}
 		this.userName = userName;
 		this.debitCards = new TreeSet<DebitCard>();
-		this.productID = Long.valueOf(accountCount++);
 		this.money = 0;
 	}
 	
@@ -149,8 +140,10 @@ public class Account extends BankProduct{
 	
 	@Override
 	public String formatID() {
-		return NumberFormatter.formatNumber(this.productID.longValue(), ProductType.ACCOUNT.getFormat());
+		return NumberFormatter.formatNumber(this.productID.longValue(), ProductFormatType.ACCOUNT.getFormat());
 	}
+
+	
 
 	
 

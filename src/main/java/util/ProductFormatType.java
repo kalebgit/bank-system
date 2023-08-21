@@ -1,12 +1,12 @@
 package util;
 
-public enum ProductType {
+public enum ProductFormatType {
 	ACCOUNT("###-#-#####/#"), BANKCODE("######## ##############"), CARD("#### #### #### ####"),
 	CREDITCARDCODE("###"), BRANCH("####");
 	
 	private String format;
 	
-	private ProductType(String format) {
+	private ProductFormatType(String format) {
 		this.format = format;
 	}
 	

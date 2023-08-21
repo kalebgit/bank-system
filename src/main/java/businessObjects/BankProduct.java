@@ -4,43 +4,16 @@ import java.util.Objects;
 
 public abstract class BankProduct {
 	
-	
-	protected long bankID;
-	protected long branchID;
 	protected Long productID;
 	
 	
 	//constructors
-	
-	public BankProduct(long bankID, long branchID) {
-		this.bankID = bankID;
-		this.branchID = branchID;
-		
+	public BankProduct(long productID) {
+		this.productID = Long.valueOf(productID);
 	}
-
-
-	public long getBankID() {
-		return bankID;
-	}
-
-
-	public void setBankID(long bankID) {
-		this.bankID = bankID;
-	}
-
-
-	public long getBranchID() {
-		return branchID;
-	}
-
-
-	public void setBranchID(long branchID) {
-		this.branchID = branchID;
-	}
-
 
 	public long getProductID() {
-		return productID;
+		return this.productID;
 	}
 
 
@@ -58,12 +31,10 @@ public abstract class BankProduct {
 		return formatID();
 	}
 
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(bankID, branchID, productID);
+		return Objects.hash(productID);
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -74,8 +45,10 @@ public abstract class BankProduct {
 		if (getClass() != obj.getClass())
 			return false;
 		BankProduct other = (BankProduct) obj;
-		return bankID == other.bankID && branchID == other.branchID && Objects.equals(productID, other.productID);
+		return Objects.equals(productID, other.productID);
 	}
+	
+	
 	
 	
 }

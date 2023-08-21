@@ -9,15 +9,15 @@ public class CreditCard extends BankProduct{
 		cardCount = 0;
 	}
 	
-	public CreditCard(long bankID, long branchID) {
-		super(bankID, branchID);
+	public CreditCard(long productID) {
+		super(productID);
 		
 		this.productID = Long.valueOf(cardCount++);
 	}
 	
 	@Override
 	public String formatID() {
-		return NumberFormatter.formatNumber(this.productID.longValue(), ProductType.CARD.getFormat());
+		return NumberFormatter.formatNumber(this.productID.longValue(), ProductFormatType.CARD.getFormat());
 	}
 	
 	

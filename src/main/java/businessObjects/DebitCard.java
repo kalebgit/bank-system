@@ -19,8 +19,8 @@ public class DebitCard extends BankProduct {
 	private int nip;
 	private boolean isDefault;
 	
-	public DebitCard(long bankID, long branchID, int nip, BigInteger cardNumber) throws BankException  {
-		super(bankID, branchID);
+	public DebitCard(long productID, int nip, BigInteger cardNumber) throws BankException  {
+		super(productID);
 		this.money = 0;
 		if((cardNumber.compareTo(new BigInteger("1000000000000000")) == 1 && 
 				cardNumber.compareTo(new BigInteger("999999999999")) == -1) 
@@ -64,7 +64,7 @@ public class DebitCard extends BankProduct {
 
 	@Override
 	public String formatID() {
-		return NumberFormatter.formatNumber(this.productID.byteValue(), ProductType.CARD.getFormat());
+		return NumberFormatter.formatNumber(this.productID.byteValue(), ProductFormatType.CARD.getFormat());
 	}
 
 	@Override
