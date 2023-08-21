@@ -234,6 +234,7 @@ public class Account extends BankProduct implements DAO<Account, Long>, Connecti
 			p.setLong(5, element.getProductID());
 			p.setBigDecimal(6, element.getBankCode());
 			p.setString(7, element.getUserName());
+			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -243,8 +244,19 @@ public class Account extends BankProduct implements DAO<Account, Long>, Connecti
 	}
 
 	@Override
-	public boolean delete(Object element) {
-		// TODO Auto-generated method stub
+	public boolean delete(Account element) {
+		Connection conn = getConnection();
+		String query = "DELETE FROM Account WHERE AccountID=? AND BankCode=? AND Username=? ";
+		try {
+			PreparedStatement p = conn.prepareStatement(query);
+			p.setLong(1, element.getProductID());
+			p.setBigDecimal(2, element.getBankCode());
+			p.setString(3, element.getUserName());
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
