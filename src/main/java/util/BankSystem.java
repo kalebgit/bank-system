@@ -11,13 +11,7 @@ import exceptions.BankException;
 
 public class BankSystem {
 	
-	private static Set<Account> accounts;
-	
-	public BankSystem() {
-		accounts = new TreeSet<Account>();
-	}
-	
-	public static boolean login(String userName, String password) throws BankException{
+	public static Account login(String userName, String password) throws BankException{
 		for(Account account : accounts) {
 			if(account.getUserName().equals(userName) && account.getPassword().equals(password)) {
 				return true;
@@ -26,7 +20,7 @@ public class BankSystem {
 		throw new BankException(BankExceptionType.USERNOTFOUND) ;
 	}
 	
-	public static boolean register(Account newAccount) throws BankException{
+	public static Account register(Account newAccount) throws BankException{
 		for(Account account : accounts) {
 			if(account.equals(newAccount)) {
 				throw new BankException(BankExceptionType.DUPLICATEUSER);
@@ -34,18 +28,6 @@ public class BankSystem {
 		}
 		return true ;
 	}
-	
-	public static Account findAccount(BigDecimal bankCode) throws BankException{
-		for(Account account : accounts) {
-			if(account.getBankCode() == bankCode) {
-				return account;
-			}
-		}
-		throw new BankException(BankExceptionType.USERNOTFOUND, ": NO SE ENCONTRO UN USUARIO CON LA CLABE");
-		
-	}
-	
-	
 	
 	public static String generateTransaction(Account account) throws BankException {
 		

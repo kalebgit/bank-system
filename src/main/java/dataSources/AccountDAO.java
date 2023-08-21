@@ -106,4 +106,29 @@ public class AccountDAO implements DAO<Account, Long>{
 		}
 		throw new BankException(BankExceptionType.DAOSQLSERVER, "Usuario no encontrado con ese id");
 	}
+	
+	public Account login(String username, String password) throws Exception {
+		String query = "SELECT * FROM Account WHERE Username=? AND Password=?";
+		try {
+			PreparedStatement p = conn.prepareStatement(query);
+			p.setString(1, username);
+			p.setString(2, password);
+			ResultSet set = p.executeQuery();
+			if(set.next()) {
+				Account accountfound = new Account(set.getLong("AccountID"),
+						set.getString("Username"), set.getString("Password"), 
+						set.getBigDecimal("BankCode"), 
+						set.getDouble("Funds"));
+				set.close();
+				return accountfound;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new BankException(BankExceptionType.USERNOTFOUND, e, ": NO SE ENCONTRO UN USUARIO ");
+		} catch (BankException e) {
+			// TODO Auto-generated catch block
+			throw new BankException(BankExceptionType.USERNOTFOUND, e, ": NO SE ENCONTRO UN USUARIO ");
+		}
+		throw new BankException(BankExceptionType.USERNOTFOUND,": NO SE ENCONTRO UN USUARIO ");
+	}
 }
