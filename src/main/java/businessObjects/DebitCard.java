@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 import dataAccessObject.DAO;
+import dataSources.*;
 import exceptions.BankException;
 import util.*;
 
@@ -40,6 +41,9 @@ public class DebitCard extends BankProduct {
 	
 	public void updateMoney(double money) {
 		this.money += money;
+		DAOManager dao = new DAOManager();
+		DebitCardDAO debitcarddao = dao.getDebitCardDAO();
+		debitcarddao.update(this);
 	}
 	
 	public BigDecimal getCardNumber() {

@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.*;
 
 import dataAccessObject.DAO;
+import dataSources.*;
 
 import exceptions.BankException;
 import util.*;
@@ -104,6 +105,9 @@ public class Account extends BankProduct{
 	
 	private void updateMoney(double money) {
 		this.money += money;
+		DAOManager manager = new DAOManager();
+		AccountDAO accountdao = manager.getAccountDAO();
+		accountdao.update(this);
 	}
 	
 	private boolean hasFunds(double money) throws BankException{
