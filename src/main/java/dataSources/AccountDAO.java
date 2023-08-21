@@ -2,10 +2,13 @@ package dataSources;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import businessObjects.Account;
 import dataAccessObject.DAO;
+import exceptions.BankException;
+import util.BankExceptionType;
 
 public class AccountDAO implements DAO<Account, Long>{
 	
@@ -27,6 +30,7 @@ public class AccountDAO implements DAO<Account, Long>{
 			p.setString(3, element.getPassword());
 			p.setDouble(4, element.getMoney());
 			p.execute();
+			p.close();
 			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -49,6 +53,7 @@ public class AccountDAO implements DAO<Account, Long>{
 			p.setBigDecimal(6, element.getBankCode());
 			p.setString(7, element.getUserName());
 			p.execute();
+			p.close();
 			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -67,11 +72,38 @@ public class AccountDAO implements DAO<Account, Long>{
 			p.setBigDecimal(2, element.getBankCode());
 			p.setString(3, element.getUserName());
 			p.execute();
+			p.close();
 			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	
+	@Override
+	public Account getSingle(Long key) throws Exception {
+		String query = "SELECT * FROM Account WHERE AccountID=?";
+		try {
+			PreparedStatement p = conn.prepareStatement(query);
+			p.setLong(1, key);
+			ResultSet set = p.executeQuery();
+			if(set.next()) {
+				Account accountFound = new Account(set.getLong("AccountID"),
+						set.getString("Username"), set.getString("Password"), 
+						set.getBigDecimal("BankCode"), 
+						set.getDouble("Funds"));
+				set.close();
+				return accountFound;
+			}else {
+				set.close();
+				throw new BankException(BankExceptionType.DAOSQLSERVER, "Usuario no encontrado con ese id");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		throw new BankException(BankExceptionType.DAOSQLSERVER, "Usuario no encontrado con ese id");
 	}
 }

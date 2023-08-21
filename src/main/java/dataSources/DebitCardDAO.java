@@ -83,4 +83,8 @@ public class DebitCardDAO implements DAO<DebitCard, Long>{
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
+	
+	public DebitCard getSingle(Long key) {
+		throw new UnsupportedOperationException();
+	}
 }

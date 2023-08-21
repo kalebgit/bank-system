@@ -41,7 +41,8 @@ public class Account extends BankProduct{
 		this.bankCode = bankCode;
 	}
 	
-	public Account(long productID, String userName, String password, BigDecimal bankCode) 
+	public Account(long productID, String userName, String password, BigDecimal bankCode,
+			double money) 
 			throws BankException {
 		super(productID);
 		if(checkPasswordFormat(password)) {
@@ -57,7 +58,7 @@ public class Account extends BankProduct{
 		}
 		this.userName = userName;
 		this.debitCards = new TreeSet<DebitCard>();
-		this.money = 0;
+		this.money = money;
 	}
 	
 	
@@ -80,7 +81,22 @@ public class Account extends BankProduct{
 	
 	
 	//operations
-	
+	public boolean transferTo(Account receiver, double amount) throws BankException{
+		try {
+			if(this.hasFunds(amount)) {
+				try {
+					if(this.withdrawMoney(this.getDefaultDebitCard().getCardNumber(), amount)) {
+						receiver.addMoney(amount);
+					}
+				}catch(BankException e) {
+					throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
+				}
+			}
+		}catch(BankException e) {
+			throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
+		}
+		return true;
+	}
 	
 	public double getMoney() {
 		return this.money;
