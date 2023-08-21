@@ -42,3 +42,11 @@
 --	CONSTRAINT FK_Transfer_ReceiverAccount FOREIGN KEY (ReceiverAccountID)
 --		REFERENCES Account(AccountID),
 --)
+
+
+SELECT * FROM DebitCard
+SELECT * FROM Account
+
+
+
+

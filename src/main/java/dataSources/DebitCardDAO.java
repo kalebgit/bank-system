@@ -2,11 +2,16 @@ package dataSources;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import businessObjects.Account;
 import businessObjects.DebitCard;
 import dataAccessObject.DAO;
+import exceptions.BankException;
+import util.BankExceptionType;
 
 public class DebitCardDAO implements DAO<DebitCard, Long>{
 	
@@ -86,5 +91,34 @@ public class DebitCardDAO implements DAO<DebitCard, Long>{
 	
 	public DebitCard getSingle(Long key) {
 		throw new UnsupportedOperationException();
+	}
+	
+	public List<DebitCard> getOwnerDebitCards(Account account)throws BankException{
+		String query = "SELECT DebitCardID, Number, NIP, DebitCard.Funds, IsDefault FROM "
+				+ "DebitCard "
+				+ "INNER JOIN "
+				+ "Account "
+				+ " ON DebitCard.AccountID = Account.AccountID "
+				+ " WHERE Account.BankCode=?";
+		
+		List<DebitCard> debitCards = new ArrayList<DebitCard>();
+		try {
+			PreparedStatement p = conn.prepareStatement(query);
+			p.setBigDecimal(1, account.getBankCode());
+			ResultSet set = p.executeQuery();
+			while(set.next()) {
+				debitCards.add(new DebitCard(set.getLong("DebitCardID"), set.getBigDecimal("Number"), 
+						set.getInt("NIP"), set.getDouble("Funds"), set.getInt("IsDefault") == 1 ? 
+								true : false));
+			}
+			p.close();
+			if(debitCards.size() > 0) {
+				return debitCards; 
+			}else {
+				throw new BankException(BankExceptionType.CARDNOTFOUND, "ninguna tarjeta fue encontrada");
+			}
+		}catch(Exception e) {
+			throw new BankException(BankExceptionType.CARDNOTFOUND, e, "ninguna tarjeta fue encontrada");
+		}
 	}
 }

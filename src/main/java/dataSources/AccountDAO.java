@@ -1,5 +1,6 @@
 package dataSources;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -88,6 +89,30 @@ public class AccountDAO implements DAO<Account, Long>{
 		try {
 			PreparedStatement p = conn.prepareStatement(query);
 			p.setLong(1, key);
+			ResultSet set = p.executeQuery();
+			if(set.next()) {
+				Account accountFound = new Account(set.getLong("AccountID"),
+						set.getString("Username"), set.getString("Password"), 
+						set.getBigDecimal("BankCode"), 
+						set.getDouble("Funds"));
+				set.close();
+				return accountFound;
+			}else {
+				set.close();
+				throw new BankException(BankExceptionType.DAOSQLSERVER, "Usuario no encontrado con ese id");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		throw new BankException(BankExceptionType.DAOSQLSERVER, "Usuario no encontrado con ese id");
+	}
+	
+	public Account getSingleByBankCode(BigDecimal bankCode) throws Exception {
+		String query = "SELECT * FROM Account WHERE BankCode=?";
+		try {
+			PreparedStatement p = conn.prepareStatement(query);
+			p.setBigDecimal(1, bankCode);
 			ResultSet set = p.executeQuery();
 			if(set.next()) {
 				Account accountFound = new Account(set.getLong("AccountID"),

@@ -19,9 +19,9 @@ public class DebitCard extends BankProduct {
 	private int nip;
 	private boolean isDefault;
 	
-	public DebitCard(long productID, int nip, BigDecimal cardNumber) throws BankException  {
+	public DebitCard(long productID, BigDecimal cardNumber, int nip, double money, boolean isDefault) throws BankException  {
 		super(productID);
-		this.money = 0;
+		this.money = money;
 		if((cardNumber.compareTo(new BigDecimal("1000000000000000")) == 1 && 
 				cardNumber.compareTo(new BigDecimal("999999999999")) == -1) 
 				&&
@@ -32,7 +32,7 @@ public class DebitCard extends BankProduct {
 		else {
 			throw new BankException(BankExceptionType.WRONGFORMAT);
 		}
-		this.isDefault = false;
+		this.isDefault = isDefault;
 	}
 	
 	public double getMoney() {
