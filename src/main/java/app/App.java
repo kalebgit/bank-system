@@ -121,14 +121,7 @@ public class App {
 		database.put("sqlUser", "sa");
 		database.put("sqlPassword", "emi");
 		
-		
-		Map<String, String> configuraciones = new HashMap();
-		configuraciones.put("fullscreen", "true");
-		configuraciones.put("resolution", "2560x1440");
-		configuraciones.put("graphics", "high");
-		configuraciones.put("sens", "1.5");
-		
-		System.out.println(createPropertiesFile("settings", configuraciones));
+		System.out.println(createPropertiesFile("database", database));
 	}
 	
 	public static <K, V> boolean createPropertiesFile(String fileName, Map<K, V> properties) {
