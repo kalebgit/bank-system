@@ -120,17 +120,28 @@ public class App {
 		database.put("sqlDatabase", "AdventureWorks2022");
 		database.put("sqlUser", "sa");
 		database.put("sqlPassword", "emi");
+		
+		
+		Map<String, String> configuraciones = new HashMap();
+		configuraciones.put("fullscreen", "true");
+		configuraciones.put("resolution", "2560x1440");
+		configuraciones.put("graphics", "high");
+		configuraciones.put("sens", "1.5");
+		
+		System.out.println(createPropertiesFile("settings", configuraciones));
 	}
 	
-	public static <K, V> void createPropertiesFile(String fileName, Map<K, V> properties) {
+	public static <K, V> boolean createPropertiesFile(String fileName, Map<K, V> properties) {
 		File file = new File("./" + fileName + ".properties");
-		try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))){
 			for(Entry<K, V> data : properties.entrySet()) {
 				writer.write(data.getKey() + "=" + data.getValue());
 				writer.newLine();
 			}
+			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 }
