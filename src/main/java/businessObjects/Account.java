@@ -159,7 +159,11 @@ public class Account extends BankProduct{
 	}
 	
 	public void removeDebitCard(BigDecimal cardNumber) throws BankException {
-		this.debitCards.remove(findDebitCard(cardNumber));
+		DAOManager manager = new DAOManager();
+		DebitCardDAO dcdao= manager.getDebitCardDAO();
+		DebitCard dcfound = dcdao.getSingleByNumber(cardNumber);
+		dcdao.delete(dcfound);
+		this.debitCards.remove(dcfound);
 	}
 	
 	public DebitCard getDefaultDebitCard() throws BankException{
