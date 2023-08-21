@@ -8,7 +8,7 @@ import businessObjects.Account;
 import businessObjects.DebitCard;
 import dataAccessObject.DAO;
 
-public class DebitCardDAO implements DAO<DebitCard, Long>, ConnectionSqlServer{
+public class DebitCardDAO implements DAO<DebitCard, Long>{
 	
 	private Connection conn;
 	
