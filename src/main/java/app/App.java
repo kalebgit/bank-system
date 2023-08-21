@@ -1,5 +1,6 @@
 package app;
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -87,36 +88,42 @@ public class App {
 //			e.printStackTrace();
 //		}
 		
-		File databaseInfo = new File("database.properties");
-		try {
-			databaseInfo.createNewFile();
-			try(BufferedWriter writer = new BufferedWriter(new FileWriter(databaseInfo))){
-				String hostname = "localhost";
-				String sqlInstanceName = "DESKTOP-GT949E0\\SQLEXPRESS";
-				String sqlDataBase = "AdventureWorks2022";
-				String sqlUser = "sa";
-				String sqlPassword = "emi";
-				writer.write("hostName=" + hostname);
-				writer.newLine();
-				writer.write("sqlInstance=" + sqlInstanceName);
-				writer.newLine();
-				writer.write("sqlDataBase=" + sqlDataBase);
-				writer.newLine();
-				writer.write("sqlUser=" + sqlUser);
-				writer.newLine();
-				writer.write("sqlPassword=" + sqlPassword);
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+//		File databaseInfo = new File("database.properties");
+//		try {
+//			databaseInfo.createNewFile();
+//			try(BufferedWriter writer = new BufferedWriter(new FileWriter(databaseInfo))){
+//				String hostname = "localhost";
+//				String sqlInstanceName = "DESKTOP-GT949E0\\SQLEXPRESS";
+//				String sqlDataBase = "AdventureWorks2022";
+//				String sqlUser = "sa";
+//				String sqlPassword = "emi";
+//				writer.write("hostName=" + hostname);
+//				writer.newLine();
+//				writer.write("sqlInstance=" + sqlInstanceName);
+//				writer.newLine();
+//				writer.write("sqlDataBase=" + sqlDataBase);
+//				writer.newLine();
+//				writer.write("sqlUser=" + sqlUser);
+//				writer.newLine();
+//				writer.write("sqlPassword=" + sqlPassword);
+//			}catch(Exception e) {
+//				e.printStackTrace();
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+		Map<String, String> database = new HashMap();
+		database.put("hostName", "localhost");
+		database.put("sqlInstanceName", "DESKTOP-GT949E0\\\\SQLEXPRESS");
+		database.put("sqlDatabase", "AdventureWorks2022");
+		database.put("sqlUser", "sa");
+		database.put("sqlPassword", "emi");
 	}
 	
 	public static <K, V> void createPropertiesFile(String fileName, Map<K, V> properties) {
-		File file = new File("./" + fileName);
+		File file = new File("./" + fileName + ".properties");
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
 			for(Entry<K, V> data : properties.entrySet()) {
 				writer.write(data.getKey() + "=" + data.getValue());
