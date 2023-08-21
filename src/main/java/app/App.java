@@ -1,5 +1,7 @@
 package app;
 import java.io.*;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import util.FileManager;
@@ -85,8 +87,45 @@ public class App {
 //			e.printStackTrace();
 //		}
 		
-		 
+		File databaseInfo = new File("database.properties");
+		try {
+			databaseInfo.createNewFile();
+			try(BufferedWriter writer = new BufferedWriter(new FileWriter(databaseInfo))){
+				String hostname = "localhost";
+				String sqlInstanceName = "DESKTOP-GT949E0\\SQLEXPRESS";
+				String sqlDataBase = "AdventureWorks2022";
+				String sqlUser = "sa";
+				String sqlPassword = "emi";
+				writer.write("hostName=" + hostname);
+				writer.newLine();
+				writer.write("sqlInstance=" + sqlInstanceName);
+				writer.newLine();
+				writer.write("sqlDataBase=" + sqlDataBase);
+				writer.newLine();
+				writer.write("sqlUser=" + sqlUser);
+				writer.newLine();
+				writer.write("sqlPassword=" + sqlPassword);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
+	
+	public static <K, V> void createPropertiesFile(String fileName, Map<K, V> properties) {
+		File file = new File("./" + fileName);
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
+			for(Entry<K, V> data : properties.entrySet()) {
+				writer.write(data.getKey() + "=" + data.getValue());
+				writer.newLine();
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
+
 
