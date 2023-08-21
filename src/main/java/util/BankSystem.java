@@ -29,22 +29,22 @@ public class BankSystem {
 		}
 	}
 	
-	public static String generateTransaction(Account account) throws BankException {
-		
-			try {
-				Account receiver = findAccount(new BigDecimal("111111111111111111"));
-				double amount = 500;
-				account.transferTo(receiver, 500);
-				
-				return account.getUserName() + " ha transferido $" + amount + " a " + receiver.getUserName() +
-						"date: " + java.time.ZonedDateTime.now().toString();
-			}catch(BankException e) {
-				StringWriter sw = new StringWriter();
-				PrintWriter pw = new PrintWriter(sw);
-				e.printStackTrace(pw);
-				return sw.toString();
-			}
-	}
+//	public static String generateTransaction(Account account) throws BankException {
+//		
+//			try {
+//				Account receiver = findAccount(new BigDecimal("111111111111111111"));
+//				double amount = 500;
+//				account.transferTo(receiver, 500);
+//				
+//				return account.getUserName() + " ha transferido $" + amount + " a " + receiver.getUserName() +
+//						"date: " + java.time.ZonedDateTime.now().toString();
+//			}catch(BankException e) {
+//				StringWriter sw = new StringWriter();
+//				PrintWriter pw = new PrintWriter(sw);
+//				e.printStackTrace(pw);
+//				return sw.toString();
+//			}
+//	}
 	
 	public static boolean writeLog(String fileName, String message) {
 		File file = new File(fileName);

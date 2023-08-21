@@ -91,9 +91,8 @@ public class DebitCardDAO implements DAO<DebitCard, Long>{
 		throw new UnsupportedOperationException();
 	}
 	
-	public DebitCard getSingle(Long key) {
-		throw new UnsupportedOperationException();
-	}
+//	public DebitCard getSingleByNumber(BigDecimal Number) {
+//	}
 	
 	public Set<DebitCard> getOwnerDebitCards(Account account)throws BankException{
 		String query = "SELECT DebitCardID, Number, NIP, DebitCard.Funds, IsDefault FROM "
