@@ -9,7 +9,7 @@ import dataSources.ConnectionSqlServer;
 import exceptions.BankException;
 import util.*;
 
-public class Account extends BankProduct implements DAO, ConnectionSqlServer{
+public class Account extends BankProduct implements DAO<Account, Long>, ConnectionSqlServer{
 	private String userName;
 	private String password;
 	private BigDecimal bankCode;
@@ -205,8 +205,19 @@ public class Account extends BankProduct implements DAO, ConnectionSqlServer{
 		Connection conn = getConnection();
 		String query = "INSERT INTO Account(BankCode, Username, Password, Funds) VALUES"
 				+ "(?, ?, ?, ?)";
-		PreparedStatement p = conn.prepareStatement(query);
-		p.setBigDecimal(1,element.getBankCode());
+		PreparedStatement p;
+		try {
+			p = conn.prepareStatement(query);
+			p.setBigDecimal(1,element.getBankCode());
+			p.setString(2, element.getUserName());
+			p.setString(3, element.getPassword());
+			p.setDouble(4, element.getMoney());
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	@Override
