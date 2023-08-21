@@ -39,12 +39,12 @@ public class DAOManager implements DAOManagerI{
 
 	@Override
 	public AccountDAO getAccountDAO() {
-		
+		return this.accountDAO;
 	}
 
 	@Override
 	public DebitCardDAO getDebitCardDAO() {
-		
+		return this.debitCardDAO;
 	}
 
 	public void setAccountDAO(AccountDAO accountDAO) {
