@@ -132,15 +132,17 @@ public class AccountDAO implements DAO<Account, Long>{
 		throw new BankException(BankExceptionType.USERNOTFOUND,": NO SE ENCONTRO UN USUARIO ");
 	}
 	
-	public boolean Exists(Account element) throws BankException {
+	public boolean exists(Account element) throws BankException {
 		String query = "SELECT * FROM Account WHERE BankCode=?";
 		try {
 			PreparedStatement p = conn.prepareStatement(query);
 			p.setBigDecimal(1, element.getBankCode());
 			ResultSet set = p.executeQuery();
 			if(set.next()) {
+				set.close();
 				return true;
 			}else {
+				set.close();
 				return false;
 			}
 		}catch(Exception e) {

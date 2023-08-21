@@ -18,13 +18,15 @@ public class BankSystem {
 		return accountdao.login(userName, password);
 	}
 	
-	public static Account register(Account newAccount) throws BankException{
-		for(Account account : accounts) {
-			if(account.equals(newAccount)) {
-				throw new BankException(BankExceptionType.DUPLICATEUSER);
-			}
+	public static boolean register(Account newAccount) throws BankException{
+		DAOManager manager= new DAOManager();
+		AccountDAO accountdao = manager.getAccountDAO();
+		if(!accountdao.exists(newAccount)) {
+			accountdao.insert(newAccount);
+			return true;
+		}else {
+			return false;
 		}
-		return true ;
 	}
 	
 	public static String generateTransaction(Account account) throws BankException {
