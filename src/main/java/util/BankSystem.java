@@ -7,17 +7,15 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import businessObjects.*;
+import dataSources.*;
 import exceptions.BankException;
 
 public class BankSystem {
 	
-	public static Account login(String userName, String password) throws BankException{
-		for(Account account : accounts) {
-			if(account.getUserName().equals(userName) && account.getPassword().equals(password)) {
-				return true;
-			}
-		}
-		throw new BankException(BankExceptionType.USERNOTFOUND) ;
+	public static Account login(String userName, String password) throws Exception{
+		DAOManager manager= new DAOManager();
+		AccountDAO accountdao = manager.getAccountDAO();
+		return accountdao.login(userName, password);
 	}
 	
 	public static Account register(Account newAccount) throws BankException{
