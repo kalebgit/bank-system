@@ -25,7 +25,7 @@ public class BankSystem {
 			accountdao.insert(newAccount);
 			return true;
 		}else {
-			return false;
+			throw new BankException(BankExceptionType.DUPLICATEUSER);
 		}
 	}
 	
@@ -46,20 +46,14 @@ public class BankSystem {
 //			}
 //	}
 	
-	public static boolean writeLog(String fileName, String message) {
-		File file = new File(fileName);
+	public static boolean writeLog(String route, String message) {
+		File file = new File("./" + route);
 		if(file.isFile()) {
-			try(BufferedWriter output = new BufferedWriter(new FileWriter(file))){
-				try(BufferedReader input = new BufferedReader(new FileReader(file))){
-					if(input.ready()) {
-						if(input.readLine() == "") {
-							output.write(message);
-						}else {
-							output.newLine();
-							output.write(message);
-						}
-					}
-				}
+			try(BufferedWriter output = new BufferedWriter(new FileWriter(file, true))){
+				output.newLine();
+				output.write(message);
+				return true;
+					
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -12,12 +12,14 @@ public class DAOManager implements DAOManagerI{
 	
 	private AccountDAO accountDAO = null;
 	private DebitCardDAO debitCardDAO = null;
+	private TransferDAO transferDAO = null;
 	private Connection conn;
 	
 	public DAOManager(boolean isTransaction) {
 		this.conn = getConnection();
 		this.accountDAO = new AccountDAO(conn);
 		this.debitCardDAO = new DebitCardDAO(conn);
+		
 		try {
 			if(isTransaction) {
 				conn.setAutoCommit(false);
@@ -27,7 +29,7 @@ public class DAOManager implements DAOManagerI{
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-
+		this.transferDAO = new TransferDAO(conn);
 	}
 	
 	public Connection getConnection() {
@@ -64,5 +66,23 @@ public class DAOManager implements DAOManagerI{
 	public void setDebitCardDAO(DebitCardDAO debitCardDAO) {
 		this.debitCardDAO = debitCardDAO;
 	}
+
+	public TransferDAO getTransferDAO() {
+		return transferDAO;
+	}
+
+	public void setTransferDAO(TransferDAO transferDAO) {
+		this.transferDAO = transferDAO;
+	}
+
+	public Connection getConn() {
+		return conn;
+	}
+
+	public void setConn(Connection conn) {
+		this.conn = conn;
+	}
+	
+	
 	
 }
