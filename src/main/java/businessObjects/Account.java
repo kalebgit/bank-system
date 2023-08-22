@@ -59,7 +59,7 @@ public class Account extends BankProduct{
 		}else {
 			throw new BankException(BankExceptionType.WRONGFORMAT);
 		}
-		DAOManager manager = new DAOManager();
+		DAOManager manager = new DAOManager(false);
 		DebitCardDAO debitcarddao = manager.getDebitCardDAO();
 		this.userName = userName;
 		this.debitCards = debitcarddao.getOwnerDebitCards(this);
@@ -109,7 +109,7 @@ public class Account extends BankProduct{
 	
 	private void updateMoney(double money) {
 		this.money += money;
-		DAOManager manager = new DAOManager();
+		DAOManager manager = new DAOManager(false);
 		AccountDAO accountdao = manager.getAccountDAO();
 		accountdao.update(this);
 	}
@@ -160,14 +160,14 @@ public class Account extends BankProduct{
 		if(this.debitCards.size() == 0) {
 			debitCard.setDefault(true);
 		}
-		DAOManager manager = new DAOManager();
+		DAOManager manager = new DAOManager(false);
 		DebitCardDAO dcdao= manager.getDebitCardDAO();
 		dcdao.insert(debitCard, this);
 		this.debitCards.add(debitCard);
 	}
 	
 	public void removeDebitCard(BigDecimal cardNumber) throws BankException {
-		DAOManager manager = new DAOManager();
+		DAOManager manager = new DAOManager(false);
 		DebitCardDAO dcdao= manager.getDebitCardDAO();
 		DebitCard dcfound = dcdao.getSingleByNumber(cardNumber);
 		dcdao.delete(dcfound);

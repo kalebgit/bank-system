@@ -41,7 +41,7 @@ public class DebitCard extends BankProduct {
 	
 	public void updateMoney(double money) {
 		this.money += money;
-		DAOManager dao = new DAOManager();
+		DAOManager dao = new DAOManager(false);
 		DebitCardDAO debitcarddao = dao.getDebitCardDAO();
 		debitcarddao.update(this);
 	}
