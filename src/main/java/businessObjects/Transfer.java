@@ -92,5 +92,13 @@ public class Transfer {
 		this.date = date;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "transfer | origin = " + this.getOriginAccount().getProductID() + ""
+				+ " | card = " + (this.getOriginDebitCard() == null ? "false" : 
+					this.getOriginDebitCard().getCardNumber() +
+					" receiver = " + this.getReceiverAccount().getProductID() + ""
+							+ " | card = " + (this.getReceiverDebitCard() == null ? "false" : 
+								this.getReceiverDebitCard().getCardNumber()));
+	}
 }

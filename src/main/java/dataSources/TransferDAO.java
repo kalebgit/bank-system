@@ -1,4 +1,6 @@
 package dataSources;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.*;
 import java.sql.SQLException;
 import java.time.*;
@@ -44,8 +46,7 @@ public class TransferDAO implements DAO<Transfer, Long>{
 	//Amount, TransactionDate
 	
 	//String query = "INSERT INTO Transfer VALUES (?, ?, ?, ?, ?, ?)";
-	public boolean generateTransaction(Transfer element) throws Exception {
-		boolean success = false;
+	public String generateTransaction(Transfer element) throws Exception {
 		DebitCard origin = null; 
 		DebitCard receiver = null;
 		PreparedStatement updateOriginAccount = null, updateOriginDebitCard = null, 
@@ -102,11 +103,16 @@ public class TransferDAO implements DAO<Transfer, Long>{
 				insert.setTimestamp(6, Timestamp.valueOf(element.getDate().toLocalDateTime()));
 				insert.execute();
 				conn.commit();
-				success = true;
+				return element.toString();
 			}
 		}catch(Exception e) {
 			conn.rollback();
-			throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
+			BankException ex = new BankException(BankExceptionType.TRANSACTIONFAILED, e);
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			ex.printStackTrace(pw);
+			return sw.toString();
+			
 		}finally {
 			try {
 				closeStatement(updateOriginAccount);
@@ -118,7 +124,7 @@ public class TransferDAO implements DAO<Transfer, Long>{
 				e.printStackTrace();
 			}
 		}
-		return success;
+		return element.toString();
 	}
 	
 	public void closeStatement(PreparedStatement state) throws SQLException {

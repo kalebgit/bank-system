@@ -95,25 +95,6 @@ public class Account extends BankProduct{
 		throw new BankException(BankExceptionType.WRONGFORMAT);
 	}
 	
-	
-	//operations
-//	public boolean transferTo(Account receiver, double amount) throws BankException{
-//		try {
-//			if(this.hasFunds(amount)) {
-//				try {
-//					if(this.withdrawMoney(this.getDefaultDebitCard().getCardNumber(), amount)) {
-//						receiver.addMoney(amount);
-//					}
-//				}catch(BankException e) {
-//					throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
-//				}
-//			}
-//		}catch(BankException e) {
-//			throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
-//		}
-//		return true;
-//	}
-	
 	public double getMoney() {
 		return this.money;
 	}
