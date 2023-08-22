@@ -1,4 +1,5 @@
 package businessObjects;
+import java.sql.Timestamp;
 import java.time.*;
 
 import exceptions.BankException;
@@ -99,6 +100,8 @@ public class Transfer {
 					this.getOriginDebitCard().getCardNumber() +
 					" receiver = " + this.getReceiverAccount().getProductID() + ""
 							+ " | card = " + (this.getReceiverDebitCard() == null ? "false" : 
-								this.getReceiverDebitCard().getCardNumber()));
+								this.getReceiverDebitCard().getCardNumber()) + 
+							" | amount: " + this.getAmount() + " | date: " + 
+							Timestamp.valueOf(this.getDate().toLocalDateTime()).toString());
 	}
 }

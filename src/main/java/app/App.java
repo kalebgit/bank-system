@@ -36,7 +36,7 @@ public class App {
 			
 			DAOManager man = new DAOManager(true);
 			TransferDAO tran = manager.getTransferDAO();
-			String log = tran.generateTransaction(new Transfer(Long.valueOf(1), account, accountdao.getSingleByBankCode(new BigDecimal("100000000000000002")), 150.00));
+			String log = tran.generateTransaction(new Transfer(Long.valueOf(1), account, accountdao.getSingleByBankCode(new BigDecimal("100000000000000002")), 315.00));
 			System.out.println(log);
 			System.out.println(BankSystem.writeLog("bankOperations/transferLog.txt", log));
 			
