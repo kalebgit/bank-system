@@ -57,6 +57,7 @@ public class TransferDAO implements DAO<Transfer, Long>{
 					origin = element.getOriginAccount().getDefaultDebitCard();
 					if(origin.getMoney() >= element.getAmount()) {
 						origin.localChangeMoney(-element.getAmount());
+						element.setOriginDebitCard(origin);
 						updateOriginDebitCard = conn.prepareStatement("UPDATE DebitCard SET Funds=?"
 								+ " WHERE DebitCardID=?");
 						updateOriginDebitCard.setDouble(1, origin.getMoney());
@@ -74,6 +75,7 @@ public class TransferDAO implements DAO<Transfer, Long>{
 				if(element.getReceiverAccount().getDebitCards().size() > 0) {
 					receiver = element.getReceiverAccount().getDefaultDebitCard();
 					receiver.localChangeMoney(element.getAmount());
+					element.setReceiverDebitCard(receiver);
 					updateReceiverDebitCard = conn.prepareCall("UPDATE DebitCard SET Funds=?"
 								+ " WHERE DebitCardID=?");
 					updateReceiverDebitCard.setDouble(1, receiver.getMoney());
