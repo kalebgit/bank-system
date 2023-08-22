@@ -23,7 +23,7 @@ public class DebitCard extends BankProduct {
 		super(productID);
 		this.money = money;
 		if((cardNumber.compareTo(new BigDecimal("1000000000000000")) == 1 && 
-				cardNumber.compareTo(new BigDecimal("999999999999")) == -1) 
+				cardNumber.compareTo(new BigDecimal("9999999999999999")) == -1) 
 				&&
 			(nip > 1000 && nip < 9999)) {
 			this.cardNumber = cardNumber;

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -123,7 +124,7 @@ public class DebitCardDAO implements DAO<DebitCard, Long>{
 				+ " ON DebitCard.AccountID = Account.AccountID "
 				+ " WHERE Account.BankCode=?";
 		
-		Set<DebitCard> debitCards = new TreeSet<DebitCard>();
+		Set<DebitCard> debitCards = new HashSet<DebitCard>();
 		try {
 			PreparedStatement p = conn.prepareStatement(query);
 			p.setBigDecimal(1, account.getBankCode());
