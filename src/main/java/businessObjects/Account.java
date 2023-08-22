@@ -114,7 +114,7 @@ public class Account extends BankProduct{
 		accountdao.update(this);
 	}
 	
-	private boolean hasFunds(double money) throws BankException{
+	public boolean hasFunds(double money) throws BankException{
 		if(this.money >= money) {
 			return true;
 		}

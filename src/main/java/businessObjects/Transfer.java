@@ -5,32 +5,20 @@ import exceptions.BankException;
 import util.BankExceptionType;
 public class Transfer {
 	
-	private Long TransferID;
-	private Account OriginAccount;
-	private DebitCard OriginDebitCard;
-	private Account ReceiverAccount;
-	private DebitCard ReceiverDebitCard;
+	private Long transferID;
+	private Account originAccount;
+	private DebitCard originDebitCard;
+	private Account receiverAccount;
+	private DebitCard receiverDebitCard;
 	private double amount;
 	private OffsetDateTime date;
 	
 	
-	public Transfer(Account originAccount, Account receiverAccount) {
-		this.OriginAccount = originAccount;
-		this.ReceiverAccount = receiverAccount;
-		
-		try {
-			if(origin.hasFunds(amount)) {
-				try {
-					if(this.withdrawMoney(this.getDefaultDebitCard().getCardNumber(), amount)) {
-						receiver.addMoney(amount);
-					}
-				}catch(BankException e) {
-					throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
-				}
-			}
-		}catch(BankException e) {
-			throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
-		}
-		return true;
+	public Transfer(Long transferID, Account originAccount, Account receiverAccount, double amount, OffsetDateTime date) {
+		this.transferID = transferID;
+		this.originAccount = originAccount;
+		this.receiverAccount = receiverAccount;
+		this.amount = amount;
+		this.date = date;
 	}
 }
