@@ -46,7 +46,5 @@
 
 SELECT * FROM DebitCard
 SELECT * FROM Account
-
-
-
+SELECT * FROM Transfer
 

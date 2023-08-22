@@ -42,6 +42,17 @@ public class Account extends BankProduct{
 		this.bankCode = bankCode;
 	}
 	
+	
+	
+	
+	public Set<DebitCard> getDebitCards() {
+		return debitCards;
+	}
+
+	public void setDebitCards(Set<DebitCard> debitCards) {
+		this.debitCards = debitCards;
+	}
+
 	public Account(long productID, String userName, String password, BigDecimal bankCode,
 			double money) 
 			throws BankException {
@@ -107,6 +118,10 @@ public class Account extends BankProduct{
 		return this.money;
 	}
 	
+	public void localChangeMoney(double money) {
+		this.money += money;
+	}
+	
 	private void updateMoney(double money) {
 		this.money += money;
 		DAOManager manager = new DAOManager(false);
@@ -121,17 +136,16 @@ public class Account extends BankProduct{
 		throw new BankException(BankExceptionType.NOTENOUGHMONEY);
 	}
 	
-	public boolean withdrawMoney(BigDecimal cardNumber, double money) throws BankException{
+	public boolean withdrawMoney(double money) throws BankException{
 		if(hasFunds(money)) {
-			DebitCard card = this.findAccountDebitCard(cardNumber);
-			if(card.getMoney() >= money) {
-				this.updateMoney(-money);
-				card.updateMoney(-money);
-				return true;
-			}else {
-				throw new BankException(BankExceptionType.NOTENOUGHMONEY, "no hay suficiente dinero"
-						+ " en la tarjeta");
+			if(this.debitCards.size() > 0) {
+				DebitCard dcdefault= getDefaultDebitCard();
+				if(dcdefault.getMoney() >= money) {
+					dcdefault.updateMoney(-money);
+				}
 			}
+			this.updateMoney(-money);
+			return true;
 		}else {
 			throw new BankException(BankExceptionType.NOTENOUGHMONEY, " no hay suficiente dinero "
 					+ "en la cuenta");

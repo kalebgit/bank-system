@@ -39,6 +39,10 @@ public class DebitCard extends BankProduct {
 		return this.money;
 	}
 	
+	public void localChangeMoney(double money) {
+		this.money += money;
+	}
+	
 	public void updateMoney(double money) {
 		this.money += money;
 		DAOManager dao = new DAOManager(false);

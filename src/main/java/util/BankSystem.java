@@ -13,13 +13,13 @@ import exceptions.BankException;
 public class BankSystem {
 	
 	public static Account login(String userName, String password) throws Exception{
-		DAOManager manager= new DAOManager();
+		DAOManager manager= new DAOManager(false);
 		AccountDAO accountdao = manager.getAccountDAO();
 		return accountdao.login(userName, password);
 	}
 	
 	public static boolean register(Account newAccount) throws BankException{
-		DAOManager manager= new DAOManager();
+		DAOManager manager= new DAOManager(false);
 		AccountDAO accountdao = manager.getAccountDAO();
 		if(!accountdao.exists(newAccount)) {
 			accountdao.insert(newAccount);

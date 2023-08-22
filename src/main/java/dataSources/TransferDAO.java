@@ -1,8 +1,20 @@
 package dataSources;
+import java.sql.*;
+import java.sql.SQLException;
+import java.time.*;
+
 import businessObjects.*;
 import dataAccessObject.DAO;
+import exceptions.BankException;
+import util.BankExceptionType;
 public class TransferDAO implements DAO<Transfer, Long>{
 
+	private Connection conn;
+	
+	public TransferDAO(Connection conn) {
+		this.conn = conn;
+	}
+	
 	@Override
 	public boolean insert(Transfer element) {
 		// TODO Auto-generated method stub
@@ -32,8 +44,87 @@ public class TransferDAO implements DAO<Transfer, Long>{
 	//Amount, TransactionDate
 	
 	//String query = "INSERT INTO Transfer VALUES (?, ?, ?, ?, ?, ?)";
-	public boolean generateTransaction(Transfer element) {
-		
+	public boolean generateTransaction(Transfer element) throws Exception {
+		boolean success = false;
+		DebitCard origin = null; 
+		DebitCard receiver = null;
+		PreparedStatement updateOriginAccount = null, updateOriginDebitCard = null, 
+				updateReceiverAccount = null, updateReceiverDebitCard = null, insert = null;
+		try {
+			if(element.getOriginAccount().hasFunds(element.getAmount())) {
+				if(element.getOriginAccount().getDebitCards().size() > 0) {
+					origin = element.getOriginAccount().getDefaultDebitCard();
+					if(origin.getMoney() >= element.getAmount()) {
+						origin.localChangeMoney(-element.getAmount());
+						updateOriginDebitCard = conn.prepareStatement("UPDATE DebitCard SET Funds=?"
+								+ " WHERE DebitCardID=?");
+						updateOriginDebitCard.setDouble(1, origin.getMoney());
+						updateOriginDebitCard.setLong(2, origin.getProductID());
+						updateOriginDebitCard.execute();
+					}
+				}
+				updateOriginAccount = conn.prepareStatement("UPDATE Account SET Funds=? WHERE AccountID=?");
+				element.getOriginAccount().localChangeMoney(-element.getAmount());
+				updateOriginAccount.setDouble(1, element.getOriginAccount().getMoney());
+				updateOriginAccount.setLong(2, element.getOriginAccount().getProductID());
+				updateOriginAccount.execute();
+				
+				
+				if(element.getReceiverAccount().getDebitCards().size() > 0) {
+					receiver = element.getReceiverAccount().getDefaultDebitCard();
+					receiver.localChangeMoney(element.getAmount());
+					updateReceiverDebitCard = conn.prepareCall("UPDATE DebitCard SET Funds=?"
+								+ " WHERE DebitCardID=?");
+					updateReceiverDebitCard.setDouble(1, receiver.getMoney());
+					updateReceiverDebitCard.setLong(2, receiver.getProductID());
+					updateReceiverDebitCard.execute();
+				}
+				updateReceiverAccount = conn.prepareStatement("UPDATE Account SET Funds=? WHERE AccountID=?");
+				element.getReceiverAccount().localChangeMoney(element.getAmount());
+				updateReceiverAccount.setDouble(1, element.getReceiverAccount().getMoney());
+				updateReceiverAccount.setLong(2, element.getReceiverAccount().getProductID());
+				updateReceiverAccount.execute();
+				
+				insert = conn.prepareStatement("INSERT INTO Transfer VALUES (?, ?, ?, ?, ?, ?)");
+				insert.setLong(1, element.getOriginAccount().getProductID());
+				if(origin != null) {
+					insert.setLong(2, origin.getProductID());
+				}else {
+					insert.setString(2, null);;
+				}
+				insert.setLong(3, element.getReceiverAccount().getProductID());
+				if(receiver != null) {
+					insert.setLong(4, receiver.getProductID());
+				}else {
+					insert.setString(4, null);
+				}
+				insert.setDouble(5, element.getAmount());
+				insert.setTimestamp(6, Timestamp.valueOf(element.getDate().toLocalDateTime()));
+				insert.execute();
+				conn.commit();
+				success = true;
+			}
+		}catch(Exception e) {
+			conn.rollback();
+			throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
+		}finally {
+			try {
+				closeStatement(updateOriginAccount);
+				closeStatement(updateOriginDebitCard);
+				closeStatement(updateReceiverAccount);
+				closeStatement(updateReceiverDebitCard);
+				closeStatement(insert);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return success;
+	}
+	
+	public void closeStatement(PreparedStatement state) throws SQLException {
+		if(state != null) {
+			state.close();
+		}
 	}
 
 }
