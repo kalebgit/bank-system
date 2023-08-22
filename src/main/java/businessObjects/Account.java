@@ -121,33 +121,41 @@ public class Account extends BankProduct{
 		throw new BankException(BankExceptionType.NOTENOUGHMONEY);
 	}
 	
-//	public boolean withdrawMoney(BigDecimal cardNumber, double money) throws BankException{
-//		DebitCard card = this.findDebitCard(cardNumber);
-//		if(card.getMoney() >= money) {
-//			this.updateMoney(-money);
-//			card.updateMoney(-money);
-//			return true;
-//		}else {
-//			throw new BankException(BankExceptionType.NOTENOUGHMONEY);
-//		}
-//	}
-//	
-//	public boolean addMoney(double money) throws BankException{
-//		try {
-//			if(this.debitCards.size() > 0) {
-//				DebitCard card = this.getDefaultDebitCard();
-//				card.updateMoney(money);
-//			}
-//			this.updateMoney(money);
-//			return true;
-//		}catch(BankException e) {
-//			throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
-//		}
-//		
-//		
-//	}
-//	
-//	
+	public boolean withdrawMoney(BigDecimal cardNumber, double money) throws BankException{
+		if(hasFunds(money)) {
+			DebitCard card = this.findAccountDebitCard(cardNumber);
+			if(card.getMoney() >= money) {
+				this.updateMoney(-money);
+				card.updateMoney(-money);
+				return true;
+			}else {
+				throw new BankException(BankExceptionType.NOTENOUGHMONEY, "no hay suficiente dinero"
+						+ " en la tarjeta");
+			}
+		}else {
+			throw new BankException(BankExceptionType.NOTENOUGHMONEY, " no hay suficiente dinero "
+					+ "en la cuenta");
+		}
+
+
+	}
+	
+	public boolean addMoney(double money) throws BankException{
+		try {
+			if(this.debitCards.size() > 0) {
+				DebitCard card = this.getDefaultDebitCard();
+				card.updateMoney(money);
+			}
+			this.updateMoney(money);
+			return true;
+		}catch(BankException e) {
+			throw new BankException(BankExceptionType.TRANSACTIONFAILED, e);
+		}
+		
+		
+	}
+	
+	
 	public void addDebitCard(DebitCard debitCard) {
 		if(this.debitCards.size() == 0) {
 			debitCard.setDefault(true);
